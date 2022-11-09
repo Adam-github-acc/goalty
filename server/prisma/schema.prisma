@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id  Int @id @default(autoincrement())
+  name  String  @db.VarChar(20)
+  description String?  @db.VarChar(255)
+  owner User  @relation(fields: [user_id], references: [id])
+  user_id Int @unique
+  goals Goal[]
+}
+
+model NfcCard {
+  id Int @id @default(autoincrement())
+  nfc_uid String @db.VarChar(255)
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @db.VarChar(50)
+  first_name String @db.VarChar(20)
+  last_name String @db.VarChar(29)
+  birth_date DateTime
+  is_owner Boolean
+  nfc_cards NfcCard[]
+  goals GoalsUsers[]
+  company Company?
+}
+
+model Goal {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(30)
+  description String @db.VarChar(255)
+  goal_reach_value Int
+  company Company @relation(fields: [company_id], references: [id])
+  company_id Int
+  users GoalsUsers[]
+}
+
+model GoalsUsers {
+  goal Goal @relation(fields: [goal_id], references: [id])
+  goal_id Int
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  progress Int
+  is_completed Boolean @default(false)
+  created_at DateTime @default(now())
+
+  @@id([goal_id, user_id])
+}
+
+model Token {
+  id Int @id @default(autoincrement())
+  content String
+  is_expired Boolean @default(false)
+}
