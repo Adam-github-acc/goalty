@@ -1,7 +1,7 @@
 const statusCodes = require('../utils/server').status;
 const Joi = require('@hapi/joi');
 
-module.exports.validate = (schema, inputValidation) => {
+module.exports = (schema, inputValidation) => {
     return (req, res, next) => {
         let objToValidate = {};
 
