@@ -31,8 +31,10 @@ model User {
   username String @db.VarChar(50)
   first_name String @db.VarChar(20)
   last_name String @db.VarChar(29)
-  birth_date DateTime
-  is_owner Boolean
+  // birth_date DateTime
+  role Boolean
+  password String?
+  salt String?
   nfc_cards NfcCard[]
   goals GoalsUsers[]
   company Company?

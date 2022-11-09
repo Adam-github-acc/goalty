@@ -12,5 +12,10 @@ module.exports = {
   initialResponse: {
     status: 500,
     message: 'Internal server error.' 
+  },
+  removeSensitiveFields: (entity, ...columns) => {
+    for (const column of columns) entity[column] !== undefined && delete entity[column];
+
+    return entity;
   }
 }

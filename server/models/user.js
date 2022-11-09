@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { genPasswordAndSalt } = require('./../utils/password');
 
 module.exports = {
   retrieveAll: async (where) => {
@@ -50,6 +51,13 @@ module.exports = {
 
   create: async (data) => {
     const response = { status: false };
+    if (data.password) {
+      data = {
+        ...data,
+        ...genPasswordAndSalt(data.password)
+      }
+    }
+
     try {
       const user = await prisma.user.create({
         data,
@@ -106,6 +114,24 @@ module.exports = {
       response.data = dbResponse;
     } catch (err) {
       console.log('ERROR-userModel-delete: ', err);
+    }
+
+    return response;
+  },
+
+  retrieveByUsername: async (username) => {
+    const response = { status: false };
+    try {
+      const dbResponse = await prisma.user.findFirst({
+        where: {
+          username
+        },
+      });
+
+      response.status = true;
+      response.data = dbResponse;
+    } catch (err) {
+      console.log('ERROR-userModel-retrieveByUsername: ', err);
     }
 
     return response;

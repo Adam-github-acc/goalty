@@ -3,5 +3,9 @@ module.exports = {
     params: 'params',
     query: 'query',
     body: 'body',
+  },
+
+  sensitiveFields: {
+    user: ['password', 'salt', 'id']
   }
 };

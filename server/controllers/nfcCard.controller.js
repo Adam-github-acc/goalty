@@ -1,5 +1,5 @@
 const statusCodes = require('../utils/server').status;
-const model = require('../models/db/nfcCard');
+const model = require('../models/nfcCard');
 const { initialResponse } = require('../utils/server');
 
 

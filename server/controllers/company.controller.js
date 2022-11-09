@@ -1,5 +1,5 @@
 const statusCodes = require('../utils/server').status;
-const model = require('../models/db/company');
+const model = require('../models/company');
 const { initialResponse } = require('../utils/server');
 
 

@@ -87,5 +87,23 @@ module.exports = {
     }
 
     return response;
+  },
+
+  retrieveByContent: async (content) => {
+    const response = { status: false };
+    try {
+      const dbResponse = await prisma.token.findFirst({
+        where: {
+          content
+        },
+      });
+
+      response.status = true;
+      response.data = dbResponse;
+    } catch (err) {
+      console.log('ERROR-tokenModel-retrieveByContent: ', err);
+    }
+
+    return response;
   }
 }

@@ -1,14 +1,19 @@
 const statusCodes = require('../utils/server').status;
-const model = require('../models/db/user');
-const { initialResponse } = require('../utils/server');
+const model = require('../models/user');
+const Token = require('./../models/token');
+const { initialResponse, removeSensitiveFields } = require('../utils/server');
+const { sensitiveFields } = require('../utils/constants');
+const { generateToken } = require('./../utils/jwt');
 
 
 module.exports = {
   retrieveAll: async (req, res) => {
     const response = {...initialResponse};
+    let modelResponse = await model.retrieveAll(req.query);
     try {
-      const modelResponse = await model.retrieveAll(req.query);
       if (modelResponse.status) {
+        modelResponse = modelResponse.map(el => removeSensitiveFields(el, ...sensitiveFields.user));
+
         response.status = statusCodes.ok;
         response.message = 'Users found!';
         response.data = modelResponse.data;
@@ -50,6 +55,10 @@ module.exports = {
     try {
       const modelResponse = await model.create(req.body);
       if (modelResponse) {
+        if (req.body.password) {
+          response.token = generateToken({id: modelResponse.id});
+          await Token.create({content: response.token});
+        }
         response.status = statusCodes.created;
         response.message = 'User created successfully!';
         response.data = modelResponse.data;
