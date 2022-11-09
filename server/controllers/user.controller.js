@@ -13,7 +13,7 @@ module.exports = {
     let modelResponse = await model.retrieveAll(req.query);
     try {
       if (modelResponse.status) {
-        modelResponse = modelResponse.map(el => removeSensitiveFields(el, ...sensitiveFields.user));
+        modelResponse.data = modelResponse.data.map(el => removeSensitiveFields(el, ...sensitiveFields.user));
 
         response.status = statusCodes.ok;
         response.message = 'Users found!';
@@ -112,7 +112,9 @@ module.exports = {
 
   updateGoal: async (req, res) => {
     const response = {...initialResponse};
-    const { goal_id, user_id } = req.params;
+    let { goal_id, user_id } = req.params;
+    goal_id = Number(goal_id);
+    user_id = Number(user_id);
 
     try {
       const userGoal = await GoalsUsers.retrieveOne(goal_id, user_id);
@@ -125,9 +127,10 @@ module.exports = {
         if (!modelResponse.status) throw new Error('Error creating usergoal');
       } else {
         const updatedUserGoal = {
-          ...userGoal.data,
           progress: userGoal.data.progress + 1,
         };
+
+        console.log(updatedUserGoal);
   
         modelResponse = await GoalsUsers.update(goal_id, user_id, updatedUserGoal);
   
@@ -147,7 +150,9 @@ module.exports = {
 
   unsubscribeGoal: async (req, res) => {
     const response = {...initialResponse};
-    const {goal_id, user_id} = req.params;
+    let {goal_id, user_id} = req.params;
+    goal_id = Number(goal_id);
+    user_id = Number(user_id);
 
     try {
       const modelResponse = await GoalsUsers.delete(goal_id, user_id);

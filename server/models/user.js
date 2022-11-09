@@ -54,7 +54,7 @@ module.exports = {
     if (data.password) {
       data = {
         ...data,
-        ...genPasswordAndSalt(data.password)
+        ...await genPasswordAndSalt(data.password)
       }
     }
 

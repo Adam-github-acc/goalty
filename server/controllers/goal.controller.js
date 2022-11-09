@@ -49,7 +49,7 @@ module.exports = {
     const response = { ...initialResponse };
     try {
       const modelResponse = await model.create(req.body);
-      if (modelResponse) {
+      if (modelResponse.status) {
         response.status = statusCodes.created;
         response.message = 'Goal created successfully!';
         response.data = modelResponse.data;

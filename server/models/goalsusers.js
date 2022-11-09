@@ -50,10 +50,15 @@ module.exports = {
   update: async (goal_id, user_id, data) => {
     const response = { status: false };
     try {
-      const dbResponse = await prisma.user.update({
+      const dbResponse = await prisma.goalsUsers.update({
         where: {
-          goal_id,
-          user_id
+          goal_id_user_id: {
+            goal_id,
+            user_id
+          }
+        },
+        include: {
+          goal: true
         },
         data,
       });
@@ -73,8 +78,10 @@ module.exports = {
     try {
       const dbResponse = await prisma.goalsUsers.delete({
         where: {
-          user_id,
-          goal_id,
+          goal_id_user_id: {
+            goal_id,
+            user_id
+          }
         }
       });
 
