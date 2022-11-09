@@ -1,6 +1,7 @@
 const statusCodes = require('../utils/server').status;
 const model = require('../models/company');
-const { initialResponse } = require('../utils/server');
+const { initialResponse, removeSensitiveFields } = require('../utils/server');
+const { sensitiveFields } = require('../utils/constants');
 
 
 module.exports = {
@@ -11,6 +12,8 @@ module.exports = {
       if (modelResponse.status) {
         response.status = statusCodes.ok;
         response.message = 'Companies found!';
+
+        modelResponse.data.map(el => ({...el, owner: removeSensitiveFields(el.owner, ...sensitiveFields.user)}));
         response.data = modelResponse.data;
       } else {
         response.status = statusCodes.notFound;

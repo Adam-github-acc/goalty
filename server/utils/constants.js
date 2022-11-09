@@ -6,6 +6,6 @@ module.exports = {
   },
 
   sensitiveFields: {
-    user: ['password', 'salt', 'id']
+    user: ['password', 'salt']
   }
 };

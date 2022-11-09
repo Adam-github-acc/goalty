@@ -38,7 +38,7 @@ module.exports = {
       if (modelResponse.status && modelResponse.data) {
         response.status = statusCodes.ok;
         response.message = 'User found!';
-        response.data = modelResponse.data;
+        response.data = removeSensitiveFields(modelResponse.data, ...sensitiveFields.user);
       } else {
         response.status = statusCodes.notFound;
         response.message = 'User not found.';

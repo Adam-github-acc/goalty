@@ -1,6 +1,7 @@
 const statusCodes = require('../utils/server').status;
 const model = require('../models/goal');
-const { initialResponse } = require('../utils/server');
+const { initialResponse, removeSensitiveFields } = require('../utils/server');
+const { sensitiveFields } = require('../utils/constants');
 
 
 module.exports = {
@@ -12,6 +13,8 @@ module.exports = {
         response.status = statusCodes.ok;
         response.message = 'Goals found!';
         response.data = modelResponse.data;
+
+        modelResponse.data.map(el => el.users.map(el => removeSensitiveFields(el.user, ...sensitiveFields.user)));
       } else {
         response.status = statusCodes.notFound;
         response.message = 'No goals found.'
@@ -32,6 +35,8 @@ module.exports = {
       if (modelResponse.status && modelResponse.data) {
         response.status = statusCodes.ok;
         response.message = 'Goal found!';
+        modelResponse.data.users = modelResponse.data.users.map(el => removeSensitiveFields(el.user,
+          ...sensitiveFields.user));
         response.data = modelResponse.data;
       } else {
         response.status = statusCodes.notFound;

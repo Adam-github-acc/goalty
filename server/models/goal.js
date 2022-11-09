@@ -9,6 +9,9 @@ module.exports = {
         include: {
           company: true,
           users: {
+            include: {
+              user: true
+            },
             orderBy: {
               created_at: 'desc'
             }
@@ -37,7 +40,11 @@ module.exports = {
         },
         include: {
           company: true,
-          users: true
+          users: {
+            include: {
+              user: true
+            }
+          },
         },
       });
 
