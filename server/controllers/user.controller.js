@@ -1,6 +1,7 @@
 const statusCodes = require('../utils/server').status;
 const model = require('../models/user');
 const Token = require('./../models/token');
+const GoalsUsers = require('../models/goalsusers');
 const { initialResponse, removeSensitiveFields } = require('../utils/server');
 const { sensitiveFields } = require('../utils/constants');
 const { generateToken } = require('./../utils/jwt');
@@ -107,6 +108,58 @@ module.exports = {
     }
 
     res.status(response.status).send(response);
-  }
+  },
 
+  updateGoal: async (req, res) => {
+    const response = {...initialResponse};
+    const { goal_id, user_id } = req.params;
+
+    try {
+      const userGoal = await GoalsUsers.retrieveOne(goal_id, user_id);
+
+      let modelResponse;
+
+      if (!userGoal.status && userGoal.data === null) {
+        modelResponse = await GoalsUsers.create({goal_id, user_id});
+
+        if (!modelResponse.status) throw new Error('Error creating usergoal');
+      } else {
+        const updatedUserGoal = {
+          ...userGoal.data,
+          progress: userGoal.data.progress + 1,
+        };
+  
+        modelResponse = await GoalsUsers.update(goal_id, user_id, updatedUserGoal);
+  
+        if (!modelResponse.status) throw new Error('Error updating usergoal');
+      }
+
+      response.status = statusCodes.ok;
+      response.message = 'Goal updated to user successfully!';
+      response.data = modelResponse.data;
+
+    } catch (err) {
+      console.log('ERROR-UserController-updateGoal: ', err);
+    }
+
+    res.status(response.status).send(response);
+  },
+
+  unsubscribeGoal: async (req, res) => {
+    const response = {...initialResponse};
+    const {goal_id, user_id} = req.params;
+
+    try {
+      const modelResponse = await GoalsUsers.delete(goal_id, user_id);
+
+      if (!modelResponse.status) throw new Error('There was an error removing the goaluser');
+
+      response.status = statusCodes.noContent;
+      response.message = 'User unsubscribed from the goal successfully!';
+    } catch (err) {
+      console.log('ERROR-UserController-unsubscribeGoal: ', err);
+    }
+
+    res.status(response.status).send(response);
+  }
 }

@@ -135,5 +135,32 @@ module.exports = {
     }
 
     return response;
+  },
+
+  updateGoalInUser: async (user_id, goal_id) => {
+    const response = { status: false };
+
+    try {
+      let dbResponse = await prisma.goalsUsers.findFirst({
+        where: {
+          user_id,
+          goal_id
+        }
+      });
+
+      if (!dbResponse) {
+        dbResponse = await prisma.goalsUsers.create({
+          data
+        });
+      } else {
+
+      }
+      response.status = true;
+      response.data = dbResponse;
+    } catch (err) {
+      console.log('ERROR-userModel-updateGoalInUser: ', err);
+    }
+
+    return response;
   }
 }

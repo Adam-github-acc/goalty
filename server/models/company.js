@@ -37,7 +37,7 @@ module.exports = {
         }
       });
 
-      response.status = true;
+      response.status = dbResponse !== null;
       response.data = dbResponse;
     } catch (err) {
       console.log('ERROR-CompanyModel-retrieveOne: ', err);
