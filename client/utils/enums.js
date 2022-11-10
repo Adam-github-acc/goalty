@@ -34,4 +34,15 @@ export const colors = {
       default: '#B57114'
     }
   }
+};
+
+export const fonts = {
+  fontFamily: 'Roboto',
+  navbar: {
+    size: 22
+  },
+  button: {
+    size: 16,
+    color: colors.darkTheme.text
+  }
 }

@@ -22,10 +22,10 @@ export default function Layout () {
       padding: 5,
     },
     navbar: {
-      height: '10%',
+      height: '7%',
     },
     content: {
-      height: '80%',
+      height: '83%',
     },
     bottombar: {
       height: '10%',
