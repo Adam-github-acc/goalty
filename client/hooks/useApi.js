@@ -10,7 +10,7 @@ function useApi() {
     try {
       const data = await fetch(url, options);
       const jsonData = await data.json();
-      setData(jsonData);
+      setData(jsonData.data);
       setIsLoading(false);
     } catch (err) {
       console.log(err);

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Form from "../components/Form/Form";
 import TabMenu from "../components/TabMenu/TabMenu";
 import GlobalContext from "../context/GlobalContext";
@@ -101,12 +101,14 @@ export default function MyAccount () {
         <View>
         </View>
       ) : (
-        <View style={styles.formContainer}>
+        <>
           <TabMenu items={tabMenus.myAccount} onChange={setTab} />
-          {
-            renderForm[tab]
-          }
-        </View>
+          <ScrollView>
+            {
+              renderForm[tab]
+            }
+          </ScrollView>
+        </>
       )
     }
     </>

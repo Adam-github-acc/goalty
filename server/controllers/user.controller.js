@@ -57,7 +57,7 @@ module.exports = {
       const modelResponse = await model.create(req.body);
       if (modelResponse) {
         if (req.body.password) {
-          response.token = generateToken({id: modelResponse.id});
+          response.token = generateToken({id: modelResponse.data.id});
           await Token.create({content: response.token});
         }
         response.status = statusCodes.created;

@@ -1,8 +1,8 @@
-const { getIdFromToken } = require('jsonwebtoken');
+const { getIdFromToken } = require('./../utils/jwt');
 const { initialResponse, status } = require('./../utils/server');
 const User = require('./../models/user');
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   const response = { ...initialResponse };
   const getUserIdFromToken = () => {
     try {
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
 
     if (!user) throw new Error('User not found / Invalid token');
 
-    req.user = user;
+    req.user = user.data;
     next();
   } catch (err) {
     console.log('ERROR IN AUTHMIDDLEWARE', err);

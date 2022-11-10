@@ -9,7 +9,8 @@ module.exports = {
   }),
   create: Joi.object({
     name: Joi.string().min(3).max(20).required(),
-    description: Joi.string().max(255).optional(),
+    description: Joi.string().max(255).required(),
+    location: Joi.string().required(),
     user_id: Joi.number().integer().required(),
   }),
   update: Joi.object({

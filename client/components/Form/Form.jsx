@@ -11,9 +11,6 @@ export default function Form ({title, inputs, onSubmit, buttonText }) {
   const { color } = useDarkMode();
 
   const styles = StyleSheet.create({
-    container: {
-      flexDirection: 'column',
-    },
     title: {
       fontSize: fonts.form.title.size,
       fontWeight: fonts.form.title.weight,
@@ -23,7 +20,7 @@ export default function Form ({title, inputs, onSubmit, buttonText }) {
   });
 
   return (
-    <View style={styles.container}>
+    <>
       {title !== undefined && <Text style={styles.title}>{title}</Text>}
       {
         inputs.map((input) => <Input
@@ -38,6 +35,6 @@ export default function Form ({title, inputs, onSubmit, buttonText }) {
           )
       }
       <PrimaryButton onClick={() => onSubmit(formValues)}>{buttonText || 'Submit'}</PrimaryButton>
-    </View>
+    </>
   )
 }

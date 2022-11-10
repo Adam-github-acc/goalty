@@ -1,8 +1,9 @@
 const statusCodes = require('../utils/server').status;
 const model = require('../models/auth');
 const Token = require('../models/token');
-const { initialResponse } = require('../utils/server');
-const { generateToken } = require('./../utils/jwt');
+const { sensitiveFields } = require('../utils/constants');
+const { initialResponse, removeSensitiveFields } = require('../utils/server');
+const { generateToken, getIdFromToken } = require('./../utils/jwt');
 
 module.exports = {
   login: async (req, res) => {
@@ -16,6 +17,7 @@ module.exports = {
         throw new Error('Invalid credentials')
       }
       response.token = generateToken({id: modelResponse.data.id});
+      console.log(getIdFromToken(response.token));
       await Token.create({content: response.token});
       response.status = statusCodes.ok;
       response.message = 'User logged in successfully!';
@@ -36,6 +38,20 @@ module.exports = {
       }
     } catch (err) {
       console.log('ERROR-AuthController-login: ', err);
+    }
+
+    res.status(response.status).send(response);
+  },
+
+  profile: (req, res) => {
+    const response = {...initialResponse};
+
+    try {
+      response.data = removeSensitiveFields(req.user, ...sensitiveFields.user);
+      response.status = statusCodes.ok;
+      response.message = 'Profile retrieved successfully!';
+    } catch (err) {
+      console.log('ERROR-AuthController-profile', err);
     }
 
     res.status(response.status).send(response);

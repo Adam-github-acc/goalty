@@ -7,7 +7,9 @@ export const iconSets = {
 export const colors = {
   lightTheme: {
     background: '#fff',
+    surface: '#eee',
     text: '#000',
+    secondaryText: '#666',
     themeIcon: 'moon',
     input: {
       placeholder: '#888',
@@ -16,9 +18,10 @@ export const colors = {
     divider: '#bbb',
   },
   darkTheme: {
-    background: '#000',
-    surface: '#111',
+    background: '#222',
+    surface: '#333',
     text: '#fff',
+    secondaryText: '#aaa',
     themeIcon: 'sun',
     input: {
       placeholder: '#aaa',
@@ -53,11 +56,24 @@ export const fonts = {
   },
   input: {
     label: {
-      size: 18
+      size: 16
     }
   },
   tabMenuItems: {
     size: 16
+  },
+  welcomeText: {
+    size: 20,
+    weight: 'bold'
+  },
+  card: {
+    title: {
+      size: 20,
+      weight: 'bold'
+    },
+    description: {
+      size: 14
+    }
   }
 }
 
@@ -131,6 +147,12 @@ export const forms = {
       {
         label: 'company_name',
         placeholder: 'The name your company will have',
+        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'company_description',
+        placeholder: 'The description your company will have',
         checkValue: (value) => value.length >= 8 && value.length <= 50,
         checkTime: 500
       },
