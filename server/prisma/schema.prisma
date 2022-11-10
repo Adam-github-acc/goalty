@@ -17,6 +17,7 @@ model Company {
   owner User  @relation(fields: [user_id], references: [id])
   user_id Int @unique
   goals Goal[]
+  location Float
 }
 
 model NfcCard {
