@@ -55,6 +55,9 @@ export const fonts = {
     label: {
       size: 18
     }
+  },
+  tabMenuItems: {
+    size: 16
   }
 }
 
@@ -73,33 +76,71 @@ export const forms = {
       checkTime: 500
     },
   ],
-  register: [
-    {
-      label: 'username',
-      placeholder: 'New username for your account',
-      checkValue: (value) => value.length >= 6 && value.length <= 50,
-      checkTime: 500
-    },
-    {
-      label: 'password',
-      placeholder: 'New password for your account',
-      checkValue: (value) => value.length >= 8 && value.length <= 50,
-      checkTime: 500
-    },
-    {
-      label: 'name',
-      placeholder: 'Type your first name',
-      checkValue: (value) => value.length >= 6 && value.length <= 50,
-      checkTime: 500
-    },
-    {
-      label: 'surname',
-      placeholder: 'Type your last name',
-      checkValue: (value) => value.length >= 8 && value.length <= 50,
-      checkTime: 500
-    },
-  ]
+  register: {
+    customer: [
+      {
+        label: 'username',
+        placeholder: 'New username for your account',
+        checkValue: (value) => value.length >= 6 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'password',
+        placeholder: 'New password for your account',
+        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'first_name',
+        placeholder: 'Type your first name',
+        checkValue: (value) => value.length >= 6 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'last_name',
+        placeholder: 'Type your last name',
+        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkTime: 500
+      },
+    ],
+    company: [
+      {
+        label: 'username',
+        placeholder: 'New username for your account',
+        checkValue: (value) => value.length >= 6 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'password',
+        placeholder: 'New password for your account',
+        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'first_name',
+        placeholder: 'Type your first name',
+        checkValue: (value) => value.length >= 6 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'last_name',
+        placeholder: 'Type your last name',
+        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkTime: 500
+      },
+      {
+        label: 'company_name',
+        placeholder: 'The name your company will have',
+        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkTime: 500
+      },
+    ],
+  }
 };
+
+export const tabMenus = {
+  myAccount: ['Login', 'Register_as_customer', 'Register_as_company']
+}
 
 export const api = {
   baseUrl: 'http://192.168.1.193:3000',
@@ -108,5 +149,4 @@ export const api = {
   companyPrefix: '/companies',
   goalPrefix: '/goals',
   userPrefix: '/users',
-
 }

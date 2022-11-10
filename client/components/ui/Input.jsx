@@ -17,7 +17,8 @@ export default function Input ({label, placeholder, isPassword, checkValue, chec
       },
       label: {
         fontSize: fonts.input.label.size,
-        color
+        color,
+        marginBottom: marginBottom !== undefined && marginBottom / 3,
       },
       input: {
         backgroundColor: inputBg,
@@ -38,7 +39,7 @@ export default function Input ({label, placeholder, isPassword, checkValue, chec
     return (
       <View style={styles.container}>
         <Text style={styles.label}>
-          {label}
+          {label.split('_').join(' ')}
         </Text>
         <TextInput placeholderTextColor={placeholderColor} placeholder={placeholder} style={styles.input}
           onFocus={handleFocus} onBlur={handleBlur} value={valueInput}

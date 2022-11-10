@@ -10,13 +10,15 @@ module.exports = {
     try {
       const { username, password } = req.body;
       const modelResponse = await model.login(username, password);
-      if (modelResponse.status) {
-        response.token = generateToken({id: modelResponse.data.id});
-        await Token.create({content: response.token});
-        response.status = statusCodes.ok;
-        response.message = 'User logged in successfully!';
-        response.data = modelResponse.data;
+      if (!modelResponse.status) {
+        response.status = 400;
+        response.message = 'Username or password not correct';
+        throw new Error('Invalid credentials')
       }
+      response.token = generateToken({id: modelResponse.data.id});
+      await Token.create({content: response.token});
+      response.status = statusCodes.ok;
+      response.message = 'User logged in successfully!';
     } catch (err) {
       console.log('ERROR-AuthController-login: ', err);
     }

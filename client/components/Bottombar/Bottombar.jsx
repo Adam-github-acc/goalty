@@ -6,7 +6,9 @@ const styles = StyleSheet.create({
     height: '10%',
     display: 'flex',
     justifyContent: 'space-evenly',
-    flexDirection: 'row'
+    alignItems: 'center',
+    flexDirection: 'row',
+    position: 'relative'
   }
 })
 

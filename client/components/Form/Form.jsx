@@ -26,7 +26,8 @@ export default function Form ({title, inputs, onSubmit, buttonText }) {
     <View style={styles.container}>
       {title !== undefined && <Text style={styles.title}>{title}</Text>}
       {
-        inputs.map((input) => <Input 
+        inputs.map((input) => <Input
+            key={input.label}
             label={input.label}
             placeholder={input.placeholder}
             checkValue={input.checkValue}

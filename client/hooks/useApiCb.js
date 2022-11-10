@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-function useApiCb() {
+export default function useApiCb() {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = useCallback(async (url, options, cb) => {
@@ -12,7 +12,6 @@ function useApiCb() {
       cb(null, jsonData);
     } catch (err) {
       console.log(err);
-      setError(err);
       setIsLoading(false);
       cb(err);
     }
@@ -20,5 +19,3 @@ function useApiCb() {
 
   return {isLoading, fetchData};
 }
-
-export default useApi;

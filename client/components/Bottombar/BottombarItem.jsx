@@ -5,6 +5,7 @@ import GlobalContext from "../../context/GlobalContext";
 import useDarkMode from "../../hooks/useDarkMode";
 import UiIcon from "../ui/UiIcon";
 import { iconSets, colors } from "../../utils/enums";
+import { fonts } from "../../utils/enums";
 
 export default function BottombarItem ({icon, text, link}) {
   const { navTitle, setNavTitle } = useContext(GlobalContext);
@@ -17,7 +18,7 @@ export default function BottombarItem ({icon, text, link}) {
 
   const styles = StyleSheet.create({
     container: {
-      height: '100%',
+      height: '80%',
       width: '20%',
       display: 'flex',
       flexDirection: 'column',
@@ -26,7 +27,7 @@ export default function BottombarItem ({icon, text, link}) {
     },
     text: {
       color: text === navTitle ? colors.global.primary.default : color,
-      fontFamily: 'Arial'
+      fontFamily: fonts.fontFamily
     }
   });
   
