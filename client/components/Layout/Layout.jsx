@@ -1,0 +1,62 @@
+import Navbar from '../Navbar/Navbar';
+import Divider from './../ui/Divider';
+import Home from '../../pages/Home';
+import MyCards from './../../pages/MyCards'
+import Bottombar from './../Bottombar/Bottombar';
+import BottombarItem from './../Bottombar/BottombarItem';
+import Explore from './../../pages/Explore';
+import MyAccount from './../../pages/MyAccount';
+import { NativeRouter, Route, Routes } from 'react-router-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import useDarkMode from '../../hooks/useDarkMode';
+
+export default function Layout () {
+  const { backgroundColor, color } = useDarkMode();
+
+  const styles = StyleSheet.create({
+    layout: {
+      backgroundColor,
+      height: '100%',
+    },
+    pages: {
+      padding: 5,
+    },
+    navbar: {
+      height: '10%',
+    },
+    content: {
+      height: '80%',
+    },
+    bottombar: {
+      height: '10%',
+    },
+  });
+
+  return (
+      <View style={styles.layout}>
+        <View style={styles.navbar}>
+          <Navbar />
+        </View>
+        <Divider />
+        <ScrollView style={styles.pages} contentContainerStyle={{flex: 1}}>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/mycards" element={<MyCards />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/myaccount" element={<MyAccount />} />
+          </Routes>
+        </ScrollView>
+        <Divider />
+        <Bottombar>
+          <BottombarItem icon="home" text="Home" link="/" />
+          <BottombarItem icon="redeem" text="Cards" link="mycards" />
+          <BottombarItem icon="explore" text="Explore" link="explore" />
+          <BottombarItem
+            icon="person"
+            text="Account"
+            link="myaccount"
+          />
+        </Bottombar>
+      </View>
+  );
+}
