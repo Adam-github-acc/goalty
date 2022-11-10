@@ -2,8 +2,9 @@ import { StyleSheet, View, Text, TextInput } from 'react-native';
 import useInput from './../../hooks/useInput';
 import { colors } from '../../utils/enums';
 import useDarkMode from '../../hooks/useDarkMode';
+import { fonts } from '../../utils/enums';
 
-export default function Input ({label, placeholder, isPassword, checkValue, checkTime}) {
+export default function Input ({label, placeholder, isPassword, checkValue, checkTime, onChange, marginBottom = 0}) {
     const { valueInput, isValueValid, setValueInput,
       isFocused, handleBlur, handleFocus } = useInput(checkValue, checkTime);
     const { color, inputBg, placeholderColor } = useDarkMode();
@@ -11,10 +12,11 @@ export default function Input ({label, placeholder, isPassword, checkValue, chec
     const styles = StyleSheet.create({
       container: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginBottom
       },
       label: {
-        fontSize: 18,
+        fontSize: fonts.input.label.size,
         color
       },
       input: {
@@ -28,7 +30,10 @@ export default function Input ({label, placeholder, isPassword, checkValue, chec
     });
     
 
-    const handleChange = (value => setValueInput(value));
+    const handleChange = (value => {
+      onChange(label, value);
+      setValueInput(value)
+    });
 
     return (
       <View style={styles.container}>
@@ -37,7 +42,7 @@ export default function Input ({label, placeholder, isPassword, checkValue, chec
         </Text>
         <TextInput placeholderTextColor={placeholderColor} placeholder={placeholder} style={styles.input}
           onFocus={handleFocus} onBlur={handleBlur} value={valueInput}
-          onChangeText={(ev) => handleChange(ev.target.value)} />
+          onChangeText={(text) => handleChange(text)} />
       </View>
     );
 }

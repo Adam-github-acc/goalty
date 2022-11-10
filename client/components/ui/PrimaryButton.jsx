@@ -8,12 +8,12 @@ export default function PrimaryButton ({ children, onClick, disabled }) {
       backgroundColor: colors.global.primary.default,
       padding: 10,
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       borderRadius: 10,
     },
     text: {
       color: fonts.button.color,
-      fontSize: fonts.button.size
+      fontSize: fonts.button.size,
     }
   })
 
