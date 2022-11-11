@@ -105,5 +105,20 @@ module.exports = {
     }
 
     return response;
+  },
+
+  getGoals: async (id) => {
+    const response = { status: false };
+
+    try {
+      const modelResponse = await this.retrieveOne(id);
+
+      if (!modelResponse.status) throw new Error('Error retrieving company');
+      
+    } catch (err) {
+      console.log('ERROR-CompanyModel-getGoals');
+    }
+
+    return response;
   }
 }

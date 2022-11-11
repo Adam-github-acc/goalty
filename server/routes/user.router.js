@@ -33,4 +33,7 @@ router.delete('/:user_id/goals/:goal_id',
   joiMiddleware(schemas.userGoalsReqs, inputTypes.params),
   controller.unsubscribeGoal);
 
+router.get('/username/:username',
+  controller.retrieveByUsername);
+
 module.exports = router;

@@ -126,6 +126,9 @@ module.exports = {
         where: {
           username
         },
+        include: {
+          company: true
+        }
       });
 
       response.status = dbResponse !== null;

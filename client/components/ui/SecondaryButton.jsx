@@ -1,8 +1,10 @@
 import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
+import useDarkMode from "../../hooks/useDarkMode";
 import { colors } from "../../utils/enums";
 import { fonts } from "../../utils/enums";
 
 export default function SecondaryButton ({ children, onClick, disabled }) {
+  const { color } = useDarkMode();
   const styles = StyleSheet.create({
     button: {
       borderColor: colors.global.primary.default,
@@ -13,7 +15,7 @@ export default function SecondaryButton ({ children, onClick, disabled }) {
       borderRadius: 10,
     },
     text: {
-      color: colors.global.primary.default,
+      color,
       fontSize: fonts.button.size
     }
   })

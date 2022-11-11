@@ -4,6 +4,7 @@ export default function useApiCb() {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = useCallback(async (url, options, cb) => {
+    console.log(url);
     setIsLoading(true);
     try {
       const data = await fetch(url, options);

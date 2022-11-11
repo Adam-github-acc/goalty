@@ -7,10 +7,12 @@ import UiIcon from "../ui/UiIcon";
 import { iconSets } from "../../utils/enums";
 import { colors } from "../../utils/enums";
 import useDarkMode from "../../hooks/useDarkMode";
+import { useNavigate } from "react-router-native";
 
 export default function Navbar ({ onBack }) {
   const { toggleTheme, themeIcon, color, backgroundColor } = useDarkMode();
-  const { navTitle } = useContext(GlobalContext);
+  const { navTitle, goBack } = useContext(GlobalContext);
+  const navigate = useNavigate();
 
   const styles = StyleSheet.create({
     container: {
@@ -45,10 +47,10 @@ export default function Navbar ({ onBack }) {
   return (
     <View style={styles.container}>
       {
-        onBack && (
-          <View style={styles.leftSide}>
+        goBack === true && (
+          <TouchableOpacity style={styles.leftSide} onPress={() => navigate(-1)}>
             <UiIcon name="arrow-back" size={30} color={color} type={iconSets.materialIcons} />
-          </View>
+          </TouchableOpacity>
           )
       }
 

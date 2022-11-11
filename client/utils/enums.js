@@ -6,36 +6,34 @@ export const iconSets = {
 
 export const colors = {
   lightTheme: {
-    background: '#fff',
-    surface: '#eee',
+    background: '#ffe',
+    surface: '#E0FFE0',
     text: '#000',
     secondaryText: '#666',
     themeIcon: 'moon',
     input: {
       placeholder: '#888',
-      background: '#eee'
+      background: '#F0FFF0'
     },
     divider: '#bbb',
   },
   darkTheme: {
-    background: '#222',
-    surface: '#333',
+    background: '#213D30',
+    surface: '#4D6B50',
     text: '#fff',
-    secondaryText: '#aaa',
+    secondaryText: '#bbb',
     themeIcon: 'sun',
     input: {
-      placeholder: '#aaa',
-      background: '#222'
+      placeholder: '#ddd',
+      background: '#607C6E'
     },
     divider: '#666',
   },
   global: {
     primary: {
-      default: '#1477B5',
+      default: '#4DBD33',
+      disabled: '#7BBF6A',
     },
-    secondary: {
-      default: '#B57114'
-    }
   }
 };
 
@@ -73,6 +71,34 @@ export const fonts = {
     },
     description: {
       size: 14
+    }
+  },
+  companyDetails: {
+    title: {
+      size: 22,
+      weight: 'bold'
+    },
+    subtitle: {
+      size: 20,
+      weight: 'bold'
+    },
+    content: {
+      size: 18,
+    }
+  },
+  goal: {
+    name: {
+      size: 20,
+      weight: 'bold'
+    },
+    description: {
+      size: 14
+    }
+  },
+  addGoal: {
+    text: {
+      size: 20,
+      weight: 'bold'
     }
   }
 }
@@ -157,7 +183,15 @@ export const forms = {
         checkTime: 500
       },
     ],
-  }
+  },
+  addGoal: [
+    {
+      label: 'username',
+      placeholder: 'Username',
+      checkValue: (value) => value.length >= 6 && value.length <= 50,
+      checkTime: 500
+    },
+  ]
 };
 
 export const tabMenus = {

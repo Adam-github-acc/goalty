@@ -101,6 +101,13 @@ module.exports = {
     }
 
     res.status(response.status).send(response);
+  },
+
+  getCompanyGoals: async (req, res) => {
+    const response = { ...initialResponse };
+
+
+    res.status(response.status).send(response);
   }
 
 }

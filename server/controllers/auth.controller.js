@@ -3,7 +3,7 @@ const model = require('../models/auth');
 const Token = require('../models/token');
 const { sensitiveFields } = require('../utils/constants');
 const { initialResponse, removeSensitiveFields } = require('../utils/server');
-const { generateToken, getIdFromToken } = require('./../utils/jwt');
+const { generateToken } = require('./../utils/jwt');
 
 module.exports = {
   login: async (req, res) => {
@@ -17,7 +17,7 @@ module.exports = {
         throw new Error('Invalid credentials')
       }
       response.token = generateToken({id: modelResponse.data.id});
-      console.log(getIdFromToken(response.token));
+      response.data = removeSensitiveFields(modelResponse.data, ...sensitiveFields.user);
       await Token.create({content: response.token});
       response.status = statusCodes.ok;
       response.message = 'User logged in successfully!';

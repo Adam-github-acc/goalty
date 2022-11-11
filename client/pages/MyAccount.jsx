@@ -31,6 +31,7 @@ export default function MyAccount () {
           console.log('There was an error during the request');
           return;
         }
+        await storage.set('user', JSON.stringify(data.data));
         await storage.set('access-token', data.token);
         setIsAuthenticated(true);
       }));
@@ -46,6 +47,7 @@ export default function MyAccount () {
           'Content-Type': 'application/json'
         }
       }, async (err, data) => {
+        await storage.set('user', JSON.stringify(data.data));
         await storage.set('access-token', data.token);
         setIsAuthenticated(true);
       })
@@ -63,6 +65,7 @@ export default function MyAccount () {
         }
       }, async (err, data) => {
         if (data) {
+          await storage.set('user', JSON.stringify(data.data));
           await storage.set('access-token', data.token);
           setIsAuthenticated(true);
 

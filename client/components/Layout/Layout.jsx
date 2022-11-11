@@ -9,6 +9,8 @@ import MyAccount from './../../pages/MyAccount';
 import { NativeRouter, Route, Routes } from 'react-router-native';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import useDarkMode from '../../hooks/useDarkMode';
+import CompanyDetails from '../CompanyDetails/CompanyDetails';
+import AddGoal from '../AddGoal/AddGoal';
 
 export default function Layout () {
   const { backgroundColor, color } = useDarkMode();
@@ -44,6 +46,8 @@ export default function Layout () {
             <Route path="/mycards" element={<MyCards />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/myaccount" element={<MyAccount />} />
+            <Route path="/company/:id" element={<CompanyDetails />} />
+            <Route path="/addgoal/:goal" element={<AddGoal />} />
           </Routes>
         </ScrollView>
         <Divider />

@@ -166,5 +166,26 @@ module.exports = {
     }
 
     res.status(response.status).send(response);
+  },
+
+  retrieveByUsername: async (req, res) => {
+    const response = {...initialResponse};
+
+    try {
+      const modelResponse = await model.retrieveByUsername(req.params.username);
+      if (!modelResponse.status) {
+        response.status = statusCodes.notFound;
+        response.message = 'User not found';
+        throw new Error('User not found');
+      }
+
+      response.status = statusCodes.ok;
+      response.message = 'User retrieved successfully!';
+      response.data = removeSensitiveFields(modelResponse.data, ...sensitiveFields.user);
+    } catch (err) {
+      console.log('ERROR-UserController-retrieveByUsername: ', err);
+    }
+
+    res.status(response.status).send(response);
   }
 }

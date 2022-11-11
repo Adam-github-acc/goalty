@@ -25,4 +25,8 @@ router.delete('/:id',
   joiMiddleware(schemas.checkId, inputTypes.params),
   controller.delete);
 
+router.get('/:id/goals',
+  joiMiddleware(schemas.checkId, inputTypes.params),
+  controller.getCompanyGoals);
+
 module.exports = router;
