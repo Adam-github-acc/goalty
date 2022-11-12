@@ -4,7 +4,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import useDarkMode from "../hooks/useDarkMode";
 import MapMarker from "../components/Maps/MapMarker";
 import UiModal from "../components/ui/UiModal";
-import { getCurrentLocation } from "../utils/location";
+import { getCurrentLocation, getLocationFromCompany } from "../utils/location";
 import GlobalContext from "../context/GlobalContext";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import SecondaryButton from "../components/ui/SecondaryButton";
@@ -44,6 +44,7 @@ export default function Explore () {
     modalContent: {
       backgroundColor,
       padding: 20,
+      paddingHorizontal: 50,
       borderRadius: 10
     },
     modalTitle: {
@@ -100,8 +101,8 @@ export default function Explore () {
         (
           <MapMarker
             key={el.id}
-            latitude={Number(el.location.split(',')[0].trim())}
-            longitude={Number(el.location.split(',')[1].trim())}
+            latitude={getLocationFromCompany(el).latitude}
+            longitude={getLocationFromCompany(el).longitude}
             color="green"
             onPress={toggleModal}
             company={el}

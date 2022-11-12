@@ -5,6 +5,7 @@ import GlobalContext from "../../context/GlobalContext";
 import useDarkMode from "../../hooks/useDarkMode";
 import { getLoggedInUser } from "../../utils/auth";
 import { fonts } from "../../utils/enums";
+import { getLocationFromCompany, getFormattedLocationInfo } from "../../utils/location";
 import Goal from "../GoalList/Goal";
 import GoalList from "../GoalList/GoalList";
 
@@ -13,6 +14,7 @@ export default function CompanyDetails () {
   const { id } = useParams();
   const { color, surfaceColor } = useDarkMode();
   const [user, setUser] = useState(null);
+  const [ parsedLocation, setParsedLocation ] = useState(null);
   const [company, setCompany] = useState({
     name: '',
     company: '',
@@ -54,6 +56,11 @@ export default function CompanyDetails () {
     });
   }, [companies]);
 
+  useEffect(() => {
+    if (company.name !== '') getFormattedLocationInfo(getLocationFromCompany(company).latitude,
+      getLocationFromCompany(company).longitude).then(data => setParsedLocation((prev) => data));
+  }, [company]);
+
 
   return (
     <ScrollView>
@@ -62,8 +69,8 @@ export default function CompanyDetails () {
       <Text style={styles.content}>{company.name}</Text>
       <Text style={styles.subtitle}>Description:</Text>
       <Text style={styles.content}>{company.description}</Text>
-      <Text style={styles.subtitle}>City:</Text>
-      <Text style={styles.content}>Barcelona</Text>
+      <Text style={styles.subtitle}>Location:</Text>
+      <Text style={styles.content}>{parsedLocation}</Text>
       {
         company.goals !== undefined && company.goals.length !== 0 ? (
           <>

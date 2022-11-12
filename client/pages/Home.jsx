@@ -8,6 +8,7 @@ import array from "../utils/array";
 import GlobalContext from "../context/GlobalContext";
 import { useNavigate } from "react-router-native";
 import { getLoggedInUser } from "../utils/auth";
+import { getFormattedLocationInfo, getLocationFromCompany } from "../utils/location";
 
 export default function Home () {
   const { color } = useDarkMode();
@@ -77,10 +78,12 @@ export default function Home () {
       </Text>
       {featuredCompany !== null && <UiCard
         title={featuredCompany.name}
-        description="Lorem ipsum"
+        description={featuredCompany.description}
         buttonText="VISIT"
         goalCount={featuredCompany.goals.length}
         onClickButton={() => navigate(`/company/${featuredCompany.id}`)}
+        latitude={getLocationFromCompany(featuredCompany).latitude}
+        longitude={getLocationFromCompany(featuredCompany).longitude}
         />}
       <Text style={styles.title}>
         Or check all the companies:
@@ -93,6 +96,8 @@ export default function Home () {
           buttonText="VISIT"
           goalCount={el.goals.length}
           onClickButton={() => navigate(`/company/${el.id}`)}
+          latitude={getLocationFromCompany(el).latitude}
+          longitude={getLocationFromCompany(el).longitude}
           />)}
       <Text style={styles.title}>
         Still don't know what to do? Check the cards page <Text style={styles.link} onPress={redirToCards}>here</Text>

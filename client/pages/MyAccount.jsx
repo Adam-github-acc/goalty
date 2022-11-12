@@ -9,6 +9,7 @@ import { api } from "../utils/enums";
 import storage from "../utils/storage";
 import { useNavigate } from 'react-router-native';
 import { getCurrentLocation } from "../utils/location";
+import UserInfo from "../components/UserInfo/UserInfo";
 
 export default function MyAccount () {
   const { isAuthenticated, setIsAuthenticated, refresh, setRefresh } = useContext(GlobalContext);
@@ -108,8 +109,7 @@ export default function MyAccount () {
     <>
     {
       isAuthenticated ? (
-        <View>
-        </View>
+        <UserInfo />
       ) : (
         <>
           <TabMenu items={tabMenus.myAccount} onChange={setTab} />

@@ -1,10 +1,12 @@
+import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import useDarkMode from "../../hooks/useDarkMode";
 import { fonts, iconSets } from "../../utils/enums";
+import { getFormattedLocationInfo } from "../../utils/location";
 import PrimaryButton from "./PrimaryButton";
 import UiIcon from "./UiIcon";
 
-export default function UiCard ({title, description, buttonText, onClickButton, goalCount}) {
+export default function UiCard ({title, description, latitude, longitude, buttonText, onClickButton, goalCount}) {
   const { surfaceColor, color, secondaryText } = useDarkMode();
   
   const styles = StyleSheet.create({
