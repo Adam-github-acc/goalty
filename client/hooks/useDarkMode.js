@@ -13,9 +13,10 @@ const useDarkMode = () => {
   const placeholderColor = darkTheme ? colors.darkTheme.input.placeholder : colors.lightTheme.input.placeholder;
   const dividerColor = darkTheme ? colors.darkTheme.divider : colors.lightTheme.divider;
   const surfaceColor = darkTheme ? colors.darkTheme.surface : colors.lightTheme.surface;
-  const secondaryText = darkTheme ? colors.darkTheme.secondaryText : colors.lightTheme.secondaryText
+  const secondaryText = darkTheme ? colors.darkTheme.secondaryText : colors.lightTheme.secondaryText;
+  const mapStyle = darkTheme ? colors.darkTheme.mapStyle: colors.lightTheme.mapStyle;
 
-  return { color: textColor, backgroundColor, toggleTheme, themeIcon, inputBg, placeholderColor, dividerColor, surfaceColor, secondaryText };
+  return { color: textColor, backgroundColor, toggleTheme, themeIcon, inputBg, placeholderColor, dividerColor, surfaceColor, secondaryText, mapStyle };
 }
 
 export default useDarkMode;

@@ -1,5 +1,16 @@
-import Location from 'expo-location';
+import * as Location from 'expo-location';
 
-export default location = {
-  // getCity: async (latitude, longitude) => await Location.reverseGeocodeAsync({latitude, longitude})
+async function requestPermissions () {
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  return status === 'granted';
+}
+
+export async function getCurrentLocation () {
+  if (!await requestPermissions()) throw new Error('Location access was denied!');
+  const location = await Location.getCurrentPositionAsync();
+
+  if (location !== null) return {
+    latitude: location.coords.latitude,
+    longitude: location.coords.longitude,
+  };
 }

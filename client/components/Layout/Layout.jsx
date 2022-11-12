@@ -11,9 +11,12 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import useDarkMode from '../../hooks/useDarkMode';
 import CompanyDetails from '../CompanyDetails/CompanyDetails';
 import AddGoal from '../AddGoal/AddGoal';
+import { useContext } from 'react';
+import GlobalContext from '../../context/GlobalContext';
 
 export default function Layout () {
   const { backgroundColor, color } = useDarkMode();
+  const { navTitle } = useContext(GlobalContext);
 
   const styles = StyleSheet.create({
     layout: {
@@ -21,7 +24,8 @@ export default function Layout () {
       height: '100%',
     },
     pages: {
-      padding: 5,
+      padding: navTitle === 'Explore' ? 0 : 15,
+      paddingTop: navTitle === 'Account' || navTitle === 'Explore' ? 0 : 15
     },
     navbar: {
       height: '10%',

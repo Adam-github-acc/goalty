@@ -8,10 +8,12 @@ const GlobalContext = createContext({
   darkTheme: false,
   isAuthenticated: false,
   goBack: false,
+  refresh: false,
   setNavTitle: () => {},
   setDarkTheme: () => {},
   setIsAuthenticated: () => {},
   setGoBack: () => {},
+  setRefresh: () => {}
 });
 
 export default GlobalContext;
@@ -22,13 +24,14 @@ export function GlobalContextProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const {data: companies, error, isLoading, fetchData} = useApi();
   const [goBack, setGoBack] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    (async () => setIsAuthenticated(await storage.get('access-token') !== undefined))();
+    (async () => setIsAuthenticated(await storage.get('user') !== undefined))();
     const url = api.baseUrl + api.v1prefix + api.companyPrefix;
 
     fetchData(url);
-  }, [])
+  }, [refresh])
 
   const context = {
     navTitle,
@@ -36,10 +39,12 @@ export function GlobalContextProvider({ children }) {
     isAuthenticated,
     companies,
     goBack,
+    refresh,
     setNavTitle,
     setDarkTheme,
     setIsAuthenticated,
-    setGoBack
+    setGoBack,
+    setRefresh
   };
 
   return (

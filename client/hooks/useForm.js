@@ -16,7 +16,7 @@ export default function useForm (inputs) {
 
   const updateValue = (label, value) => setFormValues((prev) => ({
     ...prev,
-    [label]: value
+    [label]: value.trim()
   }));
 
 

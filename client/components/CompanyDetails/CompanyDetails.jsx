@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useParams } from "react-router-native";
 import GlobalContext from "../../context/GlobalContext";
 import useDarkMode from "../../hooks/useDarkMode";
@@ -11,7 +11,7 @@ import GoalList from "../GoalList/GoalList";
 export default function CompanyDetails () {
   const { companies, setNavTitle, setGoBack } = useContext(GlobalContext);
   const { id } = useParams();
-  const { color } = useDarkMode();
+  const { color, surfaceColor } = useDarkMode();
   const [user, setUser] = useState(null);
   const [company, setCompany] = useState({
     name: '',
@@ -34,6 +34,11 @@ export default function CompanyDetails () {
       paddingLeft: 20,
       marginBottom: 15,
       color
+    },
+    noGoalsPlaceholder: {
+      backgroundColor: surfaceColor,
+      padding: 15,
+      borderRadius: 10,
     }
   });
 
@@ -56,11 +61,11 @@ export default function CompanyDetails () {
       <Text style={styles.subtitle}>Name:</Text>
       <Text style={styles.content}>{company.name}</Text>
       <Text style={styles.subtitle}>Description:</Text>
-      <Text style={styles.content}>Lorem ipsum</Text>
+      <Text style={styles.content}>{company.description}</Text>
       <Text style={styles.subtitle}>City:</Text>
       <Text style={styles.content}>Barcelona</Text>
       {
-        company.goals !== undefined && company.goals.length !== 0 && (
+        company.goals !== undefined && company.goals.length !== 0 ? (
           <>
           <Text style={{...styles.subtitle, marginBottom: 10}}>Goals available:</Text>
           <GoalList>
@@ -68,6 +73,10 @@ export default function CompanyDetails () {
               && user.company !== undefined && company.user_id === user.id}/>)}
           </GoalList>
           </>
+        ) : (
+          <View style={styles.noGoalsPlaceholder}>
+            <Text style={styles.title}>There are no goals for this company (yet)</Text>
+          </View>
         )
       }
 

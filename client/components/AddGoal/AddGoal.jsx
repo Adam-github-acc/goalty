@@ -55,12 +55,19 @@ export default function AddGoal () {
     })
   }
 
-  const addGoalToUser = async (userId) => {
+  const createCard = async (userId) => {
     toggleModal();
-    console.log(goalState);
-    await ndef.writeTag(userId);
-    const nfcCard = await ndef.readTag();
-    console.log(nfcCard);
+    
+  }
+
+  const addGoalToUser = async () => {
+    toggleModal();
+    try {
+      const nfcCard = await ndef.readTag();
+      console.log(nfcCard);
+    } catch (err) {
+      console.log(err);
+    }
     toggleModal();
   }
 

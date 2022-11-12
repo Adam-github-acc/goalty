@@ -1,11 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import CompanyDashboard from "../components/Dashboard/CompanyDashboard";
 import useDarkMode from "../hooks/useDarkMode";
-import { getToken } from "../utils/auth";
-import { api, colors, fonts } from "../utils/enums";
+import { colors, fonts } from "../utils/enums";
 import useApiCb from './../hooks/useApiCb';
-import location from "../utils/location";
 import UiCard from "../components/ui/UiCard";
 import array from "../utils/array";
 import GlobalContext from "../context/GlobalContext";
@@ -30,17 +27,21 @@ export default function Home () {
     navigate('/explore');
   }
 
+  const redirToRegister = () => {
+    setNavTitle('Account');
+    navigate('myaccount');
+  }
+
   useEffect(() => {
     setNavTitle('Home');
     setGoBack(false);
     (async () => {
-      // console.log(await location.getCity(55.755826, 37.6172999))
       setUser(await getLoggedInUser() || null);
     })();
   }, [])
 
   useEffect(() => {
-    companies.length !== 0 && setFeaturedCompany(array.getRandomItem(companies));
+    (companies !== undefined && companies.length !== 0) && setFeaturedCompany(array.getRandomItem(companies));
   }, [companies]);
 
   const styles = StyleSheet.create({
@@ -57,10 +58,17 @@ export default function Home () {
     link: {
       color: colors.global.primary.default
     }
-  })
+  });
 
-  return (
-    <ScrollView>
+  const render = () => {
+    if (companies === undefined) return (
+        <Text style={styles.title}>
+          There are no companies! You can <Text style={styles.link} onPress={redirToRegister}>create one!</Text>
+        </Text>
+      );
+
+    return (
+      <>
       <Text style={styles.title}>
         Welcome{user !== null && ` back ${user.first_name} ${user.last_name}`}!
       </Text>
@@ -81,7 +89,7 @@ export default function Home () {
         .map(el => <UiCard 
           key={el.id}
           title={el.name}
-          description="Lorem ipsum"
+          description={el.description}
           buttonText="VISIT"
           goalCount={el.goals.length}
           onClickButton={() => navigate(`/company/${el.id}`)}
@@ -93,6 +101,13 @@ export default function Home () {
       <Text style={styles.title}>
         You can also see <Text style={styles.link} onPress={redirToExplore}>what companies are close to you</Text>
       </Text>
+      </>
+    )
+  }
+
+  return (
+    <ScrollView>
+      {render()}
     </ScrollView>
   );
 }
