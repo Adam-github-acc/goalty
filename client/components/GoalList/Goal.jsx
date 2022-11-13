@@ -6,7 +6,7 @@ import PrimaryButton from "../ui/PrimaryButton";
 import { useNavigate } from "react-router-native";
 import SecondaryButton from "../ui/SecondaryButton";
 
-export default function Goal ({ goal, isOwn }) {
+export default function Goal ({ goal, isOwn, companyName, progress }) {
   const { surfaceColor, secondaryText, color } = useDarkMode();
   const navigate = useNavigate();
 
@@ -26,17 +26,27 @@ export default function Goal ({ goal, isOwn }) {
       fontSize: fonts.goal.name.size,
       fontWeight: fonts.goal.name.weight,
       color,
-      marginBottom: 10,
+      marginBottom: 5,
     },
     description: {
       fontSize: fonts.goal.description.size,
       color: secondaryText,
+      marginBottom: 20,
+    },
+    firstRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
     }
   })
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.name}>{goal.name}</Text>
+        <View style={styles.firstRow}>
+          <Text style={styles.name}>{goal.name}</Text>
+          <Text style={styles.name}>{progress}</Text>
+
+        </View>
+        <Text style={styles.description}>Company: {companyName}</Text>
         {isOwn && (
           <>
           <View style={styles.buttons}>

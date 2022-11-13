@@ -8,7 +8,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(cors());
 
 app.use('/api/v1/companies', require('./routes/company.router'));
-app.use('/api/v1/nfc_cards', require('./routes/nfcCard.router'));
 app.use('/api/v1/users', require('./routes/user.router'));
 app.use('/api/v1/goals', require('./routes/goal.router'));
 app.use('/api/v1/auth', require('./routes/auth.router'));

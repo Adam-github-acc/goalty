@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useParams } from "react-router-native";
+import { useNavigate, useParams } from "react-router-native";
 import GlobalContext from "../../context/GlobalContext";
 import useApiCb from "../../hooks/useApiCb";
 import useDarkMode from "../../hooks/useDarkMode";
@@ -16,10 +16,12 @@ export default function AddGoal () {
   const [goalState, setGoalState] = useState(goal);
   const { fetchData, isLoading } = useApiCb();
   const [ isModalVisible, setIsModalVisible ] = useState(false);
-  const { setNavTitle } = useContext(GlobalContext);
+  const { setNavTitle, setGoBack } = useContext(GlobalContext);
   const toggleModal = () => setIsModalVisible(!isModalVisible);
   const [user, setUser] = useState(null)
   const ndef = new NdefTools();
+  const [modalText, setModalText] = useState('');
+  const navigate = useNavigate();
 
   const styles = StyleSheet.create({
     text: {
@@ -48,23 +50,37 @@ export default function AddGoal () {
     fetchData(url, null, (err, data) => {
       console.log(data);
       if (!err && data.status < 400) {
-        console.log(data.id);
         
-        addGoalToUser(data.data.id);
+        createCard(data.data.id);
       }
     })
   }
 
   const createCard = async (userId) => {
+    setModalText('Pass the card through the reader to assign it to the user');
     toggleModal();
-    
+    try {
+      await ndef.writeTag(userId);
+      toggleModal();
+      navigate(-1);
+    } catch (err) {
+      console.log('Error writing card: ', err);
+    }
   }
 
   const addGoalToUser = async () => {
+    setModalText('Pass the card through the reader to update the goal in the user');
     toggleModal();
     try {
       const nfcCard = await ndef.readTag();
-      console.log(nfcCard);
+      toggleModal();
+      const url = api.baseUrl + api.v1prefix + api.userPrefix + '/' 
+        + nfcCard.content + api.goalPrefix + '/' + goalState.id;
+      fetchData(url, {method: 'POST'}, (err, data) => {
+        if (!err && data.status === 200) {
+          navigate(-1);
+        }
+      })
     } catch (err) {
       console.log(err);
     }
@@ -72,7 +88,8 @@ export default function AddGoal () {
   }
 
   useEffect(() => {
-    setNavTitle('Add user');
+    setNavTitle('Create / update card');
+    setGoBack(true);
     setGoalState(JSON.parse(goal));
   }, []);
 
@@ -82,15 +99,15 @@ export default function AddGoal () {
       {goalState.new === true ? (
         <Form title="Type the user's username to create the card" onSubmit={handleSubmit} inputs={forms.addGoal} />
       ) : (
-        <PrimaryButton onClick={toggleModal}>Scan card</PrimaryButton>
+        <PrimaryButton onClick={addGoalToUser}>Scan card</PrimaryButton>
       )
       }
 
       <UiModal isVisible={isModalVisible} onBackButtonPress={toggleModal} onBackdropPress={toggleModal}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Pass the customer's card through the reader</Text>
+            <Text style={styles.modalText}>{modalText}</Text>
 
-            <PrimaryButton title="Close" onClick={addGoalToUser}>Close modal</PrimaryButton>
+            <PrimaryButton onClick={toggleModal}>Close modal</PrimaryButton>
 
           </View>
       </UiModal>

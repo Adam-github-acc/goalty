@@ -8,7 +8,6 @@ module.exports = {
     try {
       const dbResponse = await prisma.user.findMany({
         include: {
-          nfc_cards: true,
           goals: true,
           company: true
         },
@@ -34,9 +33,20 @@ module.exports = {
           id
         },
         include: {
-          nfc_cards: true,
-          goals: true,
-          company: true
+          goals: {
+            include: {
+              goal: {
+                include: {
+                  company: true
+                }
+              }
+            }
+          },
+          company: {
+            include: {
+              goals: true
+            }
+          }
         },
       });
 
@@ -62,7 +72,6 @@ module.exports = {
       const user = await prisma.user.create({
         data,
         include: {
-          nfc_cards: true,
           goals: true,
           company: true
         },
@@ -86,7 +95,6 @@ module.exports = {
         },
         data,
         include: {
-          nfc_cards: true,
           goals: true,
           company: true
         },
@@ -127,7 +135,16 @@ module.exports = {
           username
         },
         include: {
-          company: true
+          company: {
+            include: {
+              goals: true
+            }
+          },
+          goals: {
+            include: {
+              goal: true
+            }
+          }
         }
       });
 

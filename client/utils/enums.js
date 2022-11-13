@@ -272,6 +272,20 @@ export const forms = {
       checkValue: (value) => value.length >= 6 && value.length <= 50,
       checkTime: 500
     },
+  ],
+  createGoal: [
+    {
+      label: 'name',
+      placeholder: 'Name for your new loyalty card',
+      checkValue: (value) => value.length >= 3 && value.length <= 30,
+      checkTime: 500
+    },
+    {
+      label: 'goal_reach_value',
+      placeholder: 'How many times you have to validate that card',
+      checkValue: (value) => /(^\d{1,10}$)/.test(value),
+      checkTime: 500
+    }
   ]
 };
 

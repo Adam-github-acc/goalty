@@ -13,6 +13,7 @@ import CompanyDetails from '../CompanyDetails/CompanyDetails';
 import AddGoal from '../AddGoal/AddGoal';
 import { useContext } from 'react';
 import GlobalContext from '../../context/GlobalContext';
+import CreateGoal from '../CreateGoal/CreateGoal';
 
 export default function Layout () {
   const { backgroundColor, color } = useDarkMode();
@@ -52,6 +53,7 @@ export default function Layout () {
             <Route path="/myaccount" element={<MyAccount />} />
             <Route path="/company/:id" element={<CompanyDetails />} />
             <Route path="/addgoal/:goal" element={<AddGoal />} />
+            <Route path="/creategoal/:companyId" element={<CreateGoal />} />
           </Routes>
         </ScrollView>
         <Divider />

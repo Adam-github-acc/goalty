@@ -59,6 +59,8 @@ module.exports = {
 
   create: async (data) => {
     const response = { status: false };
+    data.goal_reach_value = Number(data.goal_reach_value);
+    data.company_id = Number(data.company_id);
     try {
       const goal = await prisma.goal.create({
         data,

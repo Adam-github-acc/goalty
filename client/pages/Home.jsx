@@ -9,14 +9,16 @@ import GlobalContext from "../context/GlobalContext";
 import { useNavigate } from "react-router-native";
 import { getLoggedInUser } from "../utils/auth";
 import { getFormattedLocationInfo, getLocationFromCompany } from "../utils/location";
+import { getCompanies } from "../utils/apiService";
 
 export default function Home () {
   const { color } = useDarkMode();
   const { fetchData, isLoading } = useApiCb();
   const [user, setUser] = useState(null);
-  const { companies, setNavTitle, setGoBack } = useContext(GlobalContext);
+  const { setNavTitle, setGoBack } = useContext(GlobalContext);
   const [featuredCompany, setFeaturedCompany] = useState(null);
   const navigate = useNavigate();
+  const [ companies, setCompanies ] = useState(undefined);
 
   const redirToCards = () => {
     setNavTitle('Cards');
@@ -37,6 +39,7 @@ export default function Home () {
     setNavTitle('Home');
     setGoBack(false);
     (async () => {
+      setCompanies(await getCompanies());
       setUser(await getLoggedInUser() || null);
     })();
   }, [])

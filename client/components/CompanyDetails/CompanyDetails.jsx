@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useParams } from "react-router-native";
 import GlobalContext from "../../context/GlobalContext";
 import useDarkMode from "../../hooks/useDarkMode";
+import { getCompanies, getCompany } from "../../utils/apiService";
 import { getLoggedInUser } from "../../utils/auth";
 import { fonts } from "../../utils/enums";
 import { getLocationFromCompany, getFormattedLocationInfo } from "../../utils/location";
@@ -10,14 +11,13 @@ import Goal from "../GoalList/Goal";
 import GoalList from "../GoalList/GoalList";
 
 export default function CompanyDetails () {
-  const { companies, setNavTitle, setGoBack } = useContext(GlobalContext);
+  const { setNavTitle, setGoBack } = useContext(GlobalContext);
   const { id } = useParams();
   const { color, surfaceColor } = useDarkMode();
   const [user, setUser] = useState(null);
   const [ parsedLocation, setParsedLocation ] = useState(null);
   const [company, setCompany] = useState({
     name: '',
-    company: '',
   });
   const styles = StyleSheet.create({
     title: {
@@ -45,20 +45,19 @@ export default function CompanyDetails () {
   });
 
   useEffect(() => {
-    (async () => setUser(await getLoggedInUser()))();
     setGoBack(true);
-    setCompany((prev) => {
-      const filteredCompany = companies.find(el => el.id === Number(id));
-      if (filteredCompany) {
-        setNavTitle('Company: ' + filteredCompany.name);
-        return filteredCompany;
-      }
-    });
-  }, [companies]);
+    (async () => {
+      setUser(await getLoggedInUser() || null);
+      setCompany(await getCompany(Number(id)));
+      setNavTitle('Company: ' + company.name);
+    })();
+    }, []);
 
   useEffect(() => {
-    if (company.name !== '') getFormattedLocationInfo(getLocationFromCompany(company).latitude,
+    if (company.name !== '') {
+      getFormattedLocationInfo(getLocationFromCompany(company).latitude,
       getLocationFromCompany(company).longitude).then(data => setParsedLocation((prev) => data));
+    }
   }, [company]);
 
 
@@ -77,7 +76,8 @@ export default function CompanyDetails () {
           <Text style={{...styles.subtitle, marginBottom: 10}}>Goals available:</Text>
           <GoalList>
             {company.goals.map(el => <Goal key={el.id} goal={el} isOwn={user !== null
-              && user.company !== undefined && company.user_id === user.id}/>)}
+              && user.company !== undefined && company.user_id === user.id}
+              companyName={company.name}/>)}
           </GoalList>
           </>
         ) : (

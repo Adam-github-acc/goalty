@@ -66,6 +66,7 @@ export default function UserInfo () {
       <Text style={styles.title}>User info</Text>
       <Text style={styles.subtitle}>Username: {userState.username}</Text>
       <Text style={styles.subtitle}>Full name: {userState.first_name + ' ' + userState.last_name}</Text>
+      <Text style={styles.subtitle}>Account type: {userState.role}</Text>
       <PrimaryButton onClick={logout}>Log out</PrimaryButton>
     </View>
   )
