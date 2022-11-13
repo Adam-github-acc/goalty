@@ -13,7 +13,8 @@ export const colors = {
     themeIcon: 'moon',
     input: {
       placeholder: '#888',
-      background: '#F0FFF0'
+      background: '#F0FFF0',
+      error: '#EF9A9A'
     },
     divider: '#bbb',
     mapStyle: []
@@ -26,7 +27,8 @@ export const colors = {
     themeIcon: 'sun',
     input: {
       placeholder: '#ddd',
-      background: '#607C6E'
+      background: '#607C6E',
+      error: '#841515'
     },
     divider: '#666',
     mapStyle: [
@@ -196,7 +198,7 @@ export const forms = {
       label: 'password',
       placeholder: 'Password',
       checkValue: (value) => value.length >= 8 && value.length <= 50,
-      checkTime: 500
+      checkTime: 500,
     },
   ],
   register: {
@@ -216,13 +218,13 @@ export const forms = {
       {
         label: 'first_name',
         placeholder: 'Type your first name',
-        checkValue: (value) => value.length >= 6 && value.length <= 50,
+        checkValue: (value) => value.length >= 2 && value.length <= 20,
         checkTime: 500
       },
       {
         label: 'last_name',
         placeholder: 'Type your last name',
-        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkValue: (value) => value.length >= 2 && value.length <= 29,
         checkTime: 500
       },
     ],
@@ -242,25 +244,25 @@ export const forms = {
       {
         label: 'first_name',
         placeholder: 'Type your first name',
-        checkValue: (value) => value.length >= 6 && value.length <= 50,
+        checkValue: (value) => value.length >= 2 && value.length <= 20,
         checkTime: 500
       },
       {
         label: 'last_name',
         placeholder: 'Type your last name',
-        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkValue: (value) => value.length >= 2 && value.length <= 29,
         checkTime: 500
       },
       {
         label: 'company_name',
         placeholder: 'The name your company will have',
-        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkValue: (value) => value.length >= 3 && value.length <= 20,
         checkTime: 500
       },
       {
         label: 'company_description',
         placeholder: 'The description your company will have',
-        checkValue: (value) => value.length >= 8 && value.length <= 50,
+        checkValue: (value) => value.length <= 255,
         checkTime: 500
       },
     ],

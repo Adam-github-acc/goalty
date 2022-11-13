@@ -7,7 +7,7 @@ import { fonts } from '../../utils/enums';
 export default function Input ({label, placeholder, isPassword, checkValue, checkTime, onChange, marginBottom = 0}) {
     const { valueInput, isValueValid, setValueInput,
       isFocused, handleBlur, handleFocus } = useInput(checkValue, checkTime);
-    const { color, inputBg, placeholderColor } = useDarkMode();
+    const { color, inputBg, placeholderColor, errorInputBg } = useDarkMode();
     
     const styles = StyleSheet.create({
       container: {
@@ -21,7 +21,7 @@ export default function Input ({label, placeholder, isPassword, checkValue, chec
         marginBottom: marginBottom !== undefined && marginBottom / 3,
       },
       input: {
-        backgroundColor: inputBg,
+        backgroundColor: isValueValid ? inputBg : errorInputBg,
         color,
         borderBottomWidth: 2,
         borderBottomColor: isFocused ? colors.global.primary.default : color,
@@ -41,7 +41,7 @@ export default function Input ({label, placeholder, isPassword, checkValue, chec
         <Text style={styles.label}>
           {label.split('_').join(' ')}
         </Text>
-        <TextInput placeholderTextColor={placeholderColor} placeholder={placeholder} style={styles.input}
+        <TextInput secureTextEntry={isPassword} placeholderTextColor={placeholderColor} placeholder={placeholder} style={styles.input}
           onFocus={handleFocus} onBlur={handleBlur} value={valueInput}
           onChangeText={(text) => handleChange(text)} />
       </View>

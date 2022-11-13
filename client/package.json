@@ -21,6 +21,7 @@
     "react-native-modal": "^13.0.1",
     "react-native-nfc-manager": "^3.14.0",
     "react-native-nfc-sdk": "^0.3.1-beta",
+    "react-native-toast-message": "^2.1.5",
     "react-router-native": "^6.4.3"
   },
   "devDependencies": {

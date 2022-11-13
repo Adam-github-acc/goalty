@@ -6,8 +6,8 @@ import PrimaryButton from "../ui/PrimaryButton";
 import { fonts } from "../../utils/enums";
 import useDarkMode from "../../hooks/useDarkMode";
 
-export default function Form ({title, inputs, onSubmit, buttonText }) {
-  const { formValues, updateValue } = useForm(inputs);
+export default function Form ({title, inputs, onSubmit, buttonText, isButtonDisabled }) {
+  const { formValues, updateValue, validateForm } = useForm(inputs);
   const { color } = useDarkMode();
 
   const styles = StyleSheet.create({
@@ -31,10 +31,11 @@ export default function Form ({title, inputs, onSubmit, buttonText }) {
             checkTime={input.checkTime}
             onChange={(label, value) => updateValue(label, value)}
             marginBottom={15}
+            isPassword={input.label === 'password'}
           />
           )
       }
-      <PrimaryButton onClick={() => onSubmit(formValues)}>{buttonText || 'Submit'}</PrimaryButton>
+      <PrimaryButton disabled={isButtonDisabled} onClick={() => onSubmit(formValues)}>{buttonText || 'Submit'}</PrimaryButton>
     </>
   )
 }

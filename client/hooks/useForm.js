@@ -8,9 +8,6 @@ export default function useForm (inputs) {
         ...prev,
         [input.label]: ''
       })
-    // const obj = {...prev};
-    // obj[input.label] = '';
-    // return obj
     );
   }, []);
 

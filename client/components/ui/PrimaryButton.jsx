@@ -1,11 +1,11 @@
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
 import { colors } from "../../utils/enums";
 import { fonts } from "../../utils/enums";
 
 export default function PrimaryButton ({ children, onClick, disabled }) {
   const styles = StyleSheet.create({
     button: {
-      backgroundColor: colors.global.primary.default,
+      backgroundColor: disabled ? colors.global.primary.disabled : colors.global.primary.default,
       padding: 10,
       flexDirection: 'row',
       justifyContent: 'center',
@@ -17,9 +17,11 @@ export default function PrimaryButton ({ children, onClick, disabled }) {
     }
   })
 
+  const Component = disabled ? View : TouchableOpacity;
+
   return (
-    <TouchableOpacity style={styles.button} onPress={onClick}>
+    <Component style={styles.button} onPress={disabled ? null : onClick}>
         <Text style={styles.text}>{ children }</Text>
-    </TouchableOpacity>
+    </Component>
   )
 }

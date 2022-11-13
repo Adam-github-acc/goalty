@@ -28,7 +28,6 @@ export default function CreateGoal () {
         'Content-Type': 'application/json'
       }
     }, (err, data) => {
-      console.log(data);
       if (!err && data.status === 201) {
         console.log('created!');
         navigate(-1);
@@ -37,6 +36,6 @@ export default function CreateGoal () {
   }
 
   return (
-    <Form inputs={forms.createGoal} buttonText="Create loyalty card" onSubmit={handleSubmit} />
+    <Form isButtonDisabled={isLoading} inputs={forms.createGoal} buttonText="Create loyalty card" onSubmit={handleSubmit} />
   );
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const useInput = (checkValue, checkTime) => {
   const [isFirstTime, setIsFirstTime] = useState(true);
   const [valueInput, setValueInput] = useState("");
-  const [isValueValid, setIsValueValid] = useState(null);
+  const [isValueValid, setIsValueValid] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);

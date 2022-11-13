@@ -15,8 +15,9 @@ const useDarkMode = () => {
   const surfaceColor = darkTheme ? colors.darkTheme.surface : colors.lightTheme.surface;
   const secondaryText = darkTheme ? colors.darkTheme.secondaryText : colors.lightTheme.secondaryText;
   const mapStyle = darkTheme ? colors.darkTheme.mapStyle: colors.lightTheme.mapStyle;
+  const errorInputBg = darkTheme ? colors.darkTheme.input.error : colors.lightTheme.input.error;
 
-  return { color: textColor, backgroundColor, toggleTheme, themeIcon, inputBg, placeholderColor, dividerColor, surfaceColor, secondaryText, mapStyle };
+  return { color: textColor, backgroundColor, toggleTheme, themeIcon, inputBg, placeholderColor, dividerColor, surfaceColor, secondaryText, mapStyle, errorInputBg };
 }
 
 export default useDarkMode;

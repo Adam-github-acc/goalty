@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { useNavigate } from "react-router-native";
 import Goal from "../components/GoalList/Goal";
 import GoalList from "../components/GoalList/GoalList";
@@ -31,7 +31,7 @@ export default function MyCards () {
   })
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {user !== null && ((user.role === 'company' && user.company.goals.length !== 0)
       || (user.role === 'customer' && user.goals.length !== 0)) ? (
         user.role === 'company' ? (
@@ -64,9 +64,12 @@ export default function MyCards () {
           </GoalList>
         )
       ) : (
-        <Text style={styles.title}>You have no loyalty cards (yet)</Text>
-      )
+        <View>
+          {user !== null && user.role === 'company' && <PrimaryButton onClick={() => navigate('/creategoal/' + user.company.id)}>Create loyalty card</PrimaryButton>}
+          <Text style={styles.title}>You have no loyalty cards (yet)</Text>
+        </View>)
+
       }
-    </View>
+    </ScrollView>
   );
 }

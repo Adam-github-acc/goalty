@@ -96,14 +96,10 @@ export default function MyAccount () {
   }
 
   const renderForm = {
-    Login: <Form title="Login" inputs={forms.login} buttonText="Login" onSubmit={submitHandler} />,
-    Register_as_customer: <Form title="Register as customer" inputs={forms.register.customer} buttonText="Register" onSubmit={submitHandler} />,
-    Register_as_company: <Form title="Register as company" inputs={forms.register.company} buttonText="Register" onSubmit={submitHandler} />,
+    Login: <Form isButtonDisabled={isLoading} title="Login" inputs={forms.login} buttonText="Login" onSubmit={submitHandler} />,
+    Register_as_customer: <Form isButtonDisabled={isLoading} title="Register as customer" inputs={forms.register.customer} buttonText="Register" onSubmit={submitHandler} />,
+    Register_as_company: <Form isButtonDisabled={isLoading} title="Register as company" inputs={forms.register.company} buttonText="Register" onSubmit={submitHandler} />,
   }
-
-  const styles = StyleSheet.create({
-    
-  })
 
   return (
     <>
