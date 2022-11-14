@@ -5,17 +5,29 @@ import Goal from "../components/GoalList/Goal";
 import GoalList from "../components/GoalList/GoalList";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import GlobalContext from "../context/GlobalContext";
+import useDarkMode from "../hooks/useDarkMode";
 import { getLoggedInUser } from "../utils/auth";
+import socket from "../utils/sockets";
 
 export default function MyCards () {
   const [user, setUser] = useState(null);
-  const { setNavTitle, setGoBack } = useContext(GlobalContext);
+  const [refresh, setRefresh] = useState(false);
+  const { setNavTitle, setGoBack, isAuthenticated } = useContext(GlobalContext);
+  const { color } = useDarkMode();
   const navigate = useNavigate();
   useEffect(() => {
     (async () => setUser(await getLoggedInUser() || null))();
     setNavTitle('Cards');
     setGoBack(false);
+  }, [refresh]);
+
+  useEffect(() => {
+    socket.on('goalupdated', (socketReceived) => {
+      setRefresh(user !== null && socketReceived.user_id === user.id
+      ? !refresh : refresh)
+    });
   }, [])
+
 
   const styles = StyleSheet.create({
     container: {
@@ -23,7 +35,8 @@ export default function MyCards () {
     },
     title: {
       fontSize: 20,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      color
     },
     separator: {
       height: 25,
@@ -53,8 +66,8 @@ export default function MyCards () {
         ) : (
           <GoalList>
             {user.goals.map((el) => (
-              <Goal
-                key={el.id}
+            <Goal
+                key={el.goal_id}
                 goal={el.goal}
                 isOwn={false}
                 companyName={el.goal.company.name}
@@ -66,7 +79,7 @@ export default function MyCards () {
       ) : (
         <View>
           {user !== null && user.role === 'company' && <PrimaryButton onClick={() => navigate('/creategoal/' + user.company.id)}>Create loyalty card</PrimaryButton>}
-          <Text style={styles.title}>You have no loyalty cards (yet)</Text>
+          <Text style={styles.title}>You have no loyalty cards {!isAuthenticated && 'because you are not logged in!'}</Text>
         </View>)
 
       }

@@ -6,7 +6,7 @@ import Bottombar from './../Bottombar/Bottombar';
 import BottombarItem from './../Bottombar/BottombarItem';
 import Explore from './../../pages/Explore';
 import MyAccount from './../../pages/MyAccount';
-import { NativeRouter, Route, Routes } from 'react-router-native';
+import { Route, Routes } from 'react-router-native';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import useDarkMode from '../../hooks/useDarkMode';
 import CompanyDetails from '../CompanyDetails/CompanyDetails';
@@ -26,7 +26,8 @@ export default function Layout () {
     },
     pages: {
       padding: navTitle === 'Explore' ? 0 : 15,
-      paddingTop: navTitle === 'Account' || navTitle === 'Explore' ? 0 : 15
+      paddingTop: navTitle === 'Account' || navTitle === 'Explore' ? 0 : 15,
+      paddingBottom: 0
     },
     navbar: {
       height: '10%',

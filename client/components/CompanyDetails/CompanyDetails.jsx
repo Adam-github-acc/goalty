@@ -49,12 +49,12 @@ export default function CompanyDetails () {
     (async () => {
       setUser(await getLoggedInUser() || null);
       setCompany(await getCompany(Number(id)));
-      setNavTitle('Company: ' + company.name);
     })();
     }, []);
 
   useEffect(() => {
     if (company.name !== '') {
+      setNavTitle('Company: ' + company.name);
       getFormattedLocationInfo(getLocationFromCompany(company).latitude,
       getLocationFromCompany(company).longitude).then(data => setParsedLocation((prev) => data));
     }

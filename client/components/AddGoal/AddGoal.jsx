@@ -56,16 +56,21 @@ export default function AddGoal () {
     })
   }
 
+  const closeModal = () => {
+    ndef.cancelRequest();
+    toggleModal();
+  }
+
   const createCard = async (userId) => {
     setModalText('Pass the card through the reader to assign it to the user');
     toggleModal();
     try {
       await ndef.writeTag(userId);
-      toggleModal();
       navigate(-1);
     } catch (err) {
       console.log('Error writing card: ', err);
     }
+    closeModal();
   }
 
   const addGoalToUser = async () => {
@@ -84,7 +89,7 @@ export default function AddGoal () {
     } catch (err) {
       console.log(err);
     }
-    toggleModal();
+    closeModal();
   }
 
   useEffect(() => {
@@ -103,7 +108,7 @@ export default function AddGoal () {
       )
       }
 
-      <UiModal isVisible={isModalVisible} onBackButtonPress={toggleModal} onBackdropPress={toggleModal}>
+      <UiModal isVisible={isModalVisible} onBackButtonPress={closeModal} onBackdropPress={closeModal}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>{modalText}</Text>
 

@@ -5,6 +5,7 @@ const GoalsUsers = require('../models/goalsusers');
 const { initialResponse, removeSensitiveFields } = require('../utils/server');
 const { sensitiveFields } = require('../utils/constants');
 const { generateToken } = require('./../utils/jwt');
+const io = require('./../server');
 
 
 module.exports = {
@@ -126,20 +127,25 @@ module.exports = {
 
         if (!modelResponse.status) throw new Error('Error creating usergoal');
       } else {
-        const updatedUserGoal = {
-          progress: userGoal.data.progress + 1,
-        };
-
-        console.log(updatedUserGoal);
-  
-        modelResponse = await GoalsUsers.update(goal_id, user_id, updatedUserGoal);
-  
-        if (!modelResponse.status) throw new Error('Error updating usergoal');
+        if (userGoal.data.progress >= userGoal.data.goal.goal_reach_value - 1) {
+          modelResponse = await GoalsUsers.delete(goal_id, user_id);
+          if (!modelResponse.status) throw new Error('Error removing usergoal');
+          response.completed = true;
+        } else {
+          const updatedUserGoal = {
+            progress: userGoal.data.progress + 1,
+          };
+    
+          modelResponse = await GoalsUsers.update(goal_id, user_id, updatedUserGoal);
+    
+          if (!modelResponse.status) throw new Error('Error updating usergoal');
+        }
       }
 
       response.status = statusCodes.ok;
       response.message = 'Goal updated to user successfully!';
       response.data = modelResponse.data;
+      io.emit('goalupdated', {user_id});
 
     } catch (err) {
       console.log('ERROR-UserController-updateGoal: ', err);
@@ -187,5 +193,5 @@ module.exports = {
     }
 
     res.status(response.status).send(response);
-  }
+  },
 }
