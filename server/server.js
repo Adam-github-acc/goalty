@@ -13,6 +13,10 @@ app.use(cors());
 
 module.exports = io;
 
+app.get('/', (req, res) => {
+  res.sendStatus(200)
+})
+
 app.use('/api/v1/companies', require('./routes/company.router'));
 app.use('/api/v1/users', require('./routes/user.router'));
 app.use('/api/v1/goals', require('./routes/goal.router'));
