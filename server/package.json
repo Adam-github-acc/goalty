@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "gen-prisma-client": "prisma generate",
-    "prisma-reset": "prisma migrate reset",
+    "prisma-reset": "prisma migrate reset --force",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
