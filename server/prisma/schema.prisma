@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "postgres"
+  url      = "postgres://goalty:VP1h4zroDbkhWSAa5WyQHSA9lqkOfcMs@dpg-cdp6r92rrk05dt41dd7g-a/goalty"
 }
 
 model Company {
