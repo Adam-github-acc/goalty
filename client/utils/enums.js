@@ -296,7 +296,7 @@ export const tabMenus = {
 }
 
 export const api = {
-  baseUrl: 'http://192.168.1.192:3000',
+  baseUrl: 'https://goalty.onrender.com',
   v1prefix: '/api/v1',
   authPrefix: '/auth',
   companyPrefix: '/companies',
