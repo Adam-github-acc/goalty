@@ -14,10 +14,13 @@ import AddGoal from '../AddGoal/AddGoal';
 import { useContext } from 'react';
 import GlobalContext from '../../context/GlobalContext';
 import CreateGoal from '../CreateGoal/CreateGoal';
+import Toast from 'react-native-toast-message';
+import useToast from '../../hooks/useToast';
 
 export default function Layout () {
   const { backgroundColor, color } = useDarkMode();
   const { navTitle } = useContext(GlobalContext);
+  const { config } = useToast();
 
   const styles = StyleSheet.create({
     layout: {
@@ -41,6 +44,7 @@ export default function Layout () {
   });
 
   return (
+    <>
       <View style={styles.layout}>
         <View style={styles.navbar}>
           <Navbar />
@@ -69,5 +73,7 @@ export default function Layout () {
           />
         </Bottombar>
       </View>
+      <Toast config={config} />
+    </>
   );
 }

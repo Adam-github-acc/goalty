@@ -45,6 +45,7 @@ export default function CompanyDetails () {
   });
 
   useEffect(() => {
+    setNavTitle('Company: ' + company.name);
     setGoBack(true);
     (async () => {
       setUser(await getLoggedInUser() || null);

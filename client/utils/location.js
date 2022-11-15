@@ -24,7 +24,7 @@ async function getLocationInfo (latitude, longitude) {
 
 export async function getFormattedLocationInfo (latitude, longitude) {
   const locationInfo = await getLocationInfo(latitude, longitude);
-  return `${locationInfo.city}, ${locationInfo.region}, ${locationInfo.country}`;
+  return [locationInfo.city, locationInfo.region, locationInfo.country].filter((el) => el !== null).join(', ');
 }
 
 export function getLocationFromCompany (company) {

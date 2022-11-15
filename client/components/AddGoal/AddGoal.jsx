@@ -4,11 +4,12 @@ import { useNavigate, useParams } from "react-router-native";
 import GlobalContext from "../../context/GlobalContext";
 import useApiCb from "../../hooks/useApiCb";
 import useDarkMode from "../../hooks/useDarkMode";
-import { api, fonts, forms } from "../../utils/enums";
+import { api, fonts, forms, toastTypes } from "../../utils/enums";
 import Form from "../Form/Form";
 import PrimaryButton from "../ui/PrimaryButton";
 import UiModal from "../ui/UiModal";
 import { NdefTools } from 'react-native-nfc-sdk';
+import { showToast } from "../../utils/toast";
 
 export default function AddGoal () {
   let { goal } = useParams();
@@ -51,7 +52,7 @@ export default function AddGoal () {
       console.log(data);
       if (!err && data.status < 400) {
         
-        createCard(data.data.id);
+        createCard(data.data);
       }
     })
   }
@@ -61,13 +62,15 @@ export default function AddGoal () {
     toggleModal();
   }
 
-  const createCard = async (userId) => {
+  const createCard = async (user) => {
     setModalText('Pass the card through the reader to assign it to the user');
     toggleModal();
     try {
-      await ndef.writeTag(userId);
+      await ndef.writeTag(user);
+      showToast(toastTypes.success, 'Card written correctly!', 'Card was succeesfully linked to user with username ' + user.username);
       navigate(-1);
     } catch (err) {
+      showToast(toastTypes.error, 'There was an error writing the card', 'Try to hold the card close to the reader for a second next time');
       console.log('Error writing card: ', err);
     }
     closeModal();

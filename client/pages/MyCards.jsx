@@ -23,9 +23,8 @@ export default function MyCards () {
 
   useEffect(() => {
     socket.on('goalupdated', (socketReceived) => {
-      console.log(socketReceived.user_id === user.id);
-      setRefresh(user !== null && socketReceived.user_id === user.id
-      ? !refresh : refresh)
+      console.log(socketReceived);
+      setRefresh(!refresh)
     });
   }, [])
 

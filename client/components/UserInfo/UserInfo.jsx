@@ -5,8 +5,9 @@ import GlobalContext from "../../context/GlobalContext";
 import useApiCb from "../../hooks/useApiCb";
 import useDarkMode from "../../hooks/useDarkMode";
 import { getLoggedInUser, getToken } from "../../utils/auth";
-import { api, fonts } from "../../utils/enums";
+import { api, fonts, toastTypes } from "../../utils/enums";
 import storage from "../../utils/storage";
+import { showToast } from "../../utils/toast";
 import PrimaryButton from "../ui/PrimaryButton";
 
 export default function UserInfo () {
@@ -19,11 +20,13 @@ export default function UserInfo () {
   const logout = async () => {
     const url = api.baseUrl + api.v1prefix + api.authPrefix + '/logout';
     const token = await getToken();
+    const user = await getLoggedInUser();
     fetchData(url, {
       headers: {
         'Authorization': 'Bearer ' + token,
       },
     }, async (err, data) => {
+      showToast(toastTypes.success, 'You logged out successfully', `See you soon ${user.first_name} ${user.last_name} 👋`);
       setIsAuthenticated(false);
       await storage.remove('access-token');
       await storage.remove('user');

@@ -10,6 +10,8 @@ import storage from "../utils/storage";
 import { useNavigate } from 'react-router-native';
 import { getCurrentLocation } from "../utils/location";
 import UserInfo from "../components/UserInfo/UserInfo";
+import { showToast } from "../utils/toast";
+import { toastTypes } from "../utils/enums";
 
 export default function MyAccount () {
   const { isAuthenticated, setIsAuthenticated, refresh, setRefresh } = useContext(GlobalContext);
@@ -29,13 +31,16 @@ export default function MyAccount () {
           'Content-Type': 'application/json'
         }
       }, (async (err, data) => {
-        if (err) {
+        if (err || data.status >= 400) {
+          showToast(toastTypes.error, 'Invalid credentials', 'Check your username or password')
           console.log('There was an error during the request');
           return;
         }
         await storage.set('user', JSON.stringify(data.data));
         await storage.set('access-token', data.token);
         setIsAuthenticated(true);
+        showToast(toastTypes.success, 'You logged in successfully!', `Welcome back ${data.data.first_name} ${data.data.last_name} 👋`);
+        navigate('/');
       }));
     } else if (tab === 'Register_as_customer') {
       const url = api.baseUrl + api.v1prefix + api.userPrefix;
@@ -49,9 +54,16 @@ export default function MyAccount () {
           'Content-Type': 'application/json'
         }
       }, async (err, data) => {
+        if (err || data.status >= 400) {
+          showToast(toastTypes.error, 'Invalid credentials', 'Check the fields marked as red')
+          console.log('There was an error during the request');
+          return;
+        }
         await storage.set('user', JSON.stringify(data.data));
         await storage.set('access-token', data.token);
         setIsAuthenticated(true);
+        showToast(toastTypes.success, 'You registered successfully!', `Welcome ${data.data.first_name} ${data.data.last_name} to goalty! 👋`);
+        navigate('/');
       })
     } else {
       try {
@@ -83,12 +95,15 @@ export default function MyAccount () {
                 'Content-Type': 'application/json'
               }
             }, (err, data) => {
-              console.log(data);
-              setRefresh(!refresh);
+              if (data && data.status === 201) {
+                showToast(toastTypes.success, 'You registered successfully!', `Welcome ${data.data.first_name} ${data.data.last_name} to goalty! 👋`);
+                navigate('/');
+              }
             })
           }
         })
       } catch (err) {
+        showToast(toastTypes.error, 'Location needed!', 'Location permissions must be enabled when registering as company!');
         console.log('location permission denied!');
       }
       

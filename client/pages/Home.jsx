@@ -8,7 +8,7 @@ import array from "../utils/array";
 import GlobalContext from "../context/GlobalContext";
 import { useNavigate } from "react-router-native";
 import { getLoggedInUser } from "../utils/auth";
-import { getFormattedLocationInfo, getLocationFromCompany } from "../utils/location";
+import { getLocationFromCompany } from "../utils/location";
 import { getCompanies } from "../utils/apiService";
 
 export default function Home () {

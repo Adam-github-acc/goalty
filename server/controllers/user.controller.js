@@ -145,7 +145,7 @@ module.exports = {
       response.status = statusCodes.ok;
       response.message = 'Goal updated to user successfully!';
       response.data = modelResponse.data;
-      io.emit('goalupdated', {user_id});
+      io.emit('goalupdated', {goal_id, user_id});
 
     } catch (err) {
       console.log('ERROR-UserController-updateGoal: ', err);

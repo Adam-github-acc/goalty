@@ -303,3 +303,9 @@ export const api = {
   goalPrefix: '/goals',
   userPrefix: '/users',
 }
+
+export const toastTypes = {
+  success: 'success',
+  info: 'info',
+  error: 'error'
+}
