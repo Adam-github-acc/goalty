@@ -7,7 +7,9 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 import GlobalContext from "../context/GlobalContext";
 import useDarkMode from "../hooks/useDarkMode";
 import { getLoggedInUser } from "../utils/auth";
-import socket from "../utils/sockets";
+import { io } from 'socket.io-client';
+import { api, toastTypes } from './../utils/enums';
+import { showToast } from "../utils/toast";
 
 export default function MyCards () {
   const [user, setUser] = useState(null);
@@ -22,8 +24,13 @@ export default function MyCards () {
   }, [refresh]);
 
   useEffect(() => {
+    const socket = io(api.baseUrl, {autoConnect: false});
+    socket.connect();
+    socket.on('connect', () => {
+      console.log('sockets connected')
+    });
     socket.on('goalupdated', (socketReceived) => {
-      console.log(socketReceived);
+      showToast(toastTypes.success, 'Card updated!', 'One of your loyalty cards was updated')
       setRefresh(!refresh)
     });
   }, [])

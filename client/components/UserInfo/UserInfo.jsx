@@ -9,6 +9,7 @@ import { api, fonts, toastTypes } from "../../utils/enums";
 import storage from "../../utils/storage";
 import { showToast } from "../../utils/toast";
 import PrimaryButton from "../ui/PrimaryButton";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 export default function UserInfo () {
   const [userState, setUserState] = useState(null);
@@ -64,13 +65,18 @@ export default function UserInfo () {
     }
   })
 
-  return userState !== null && (
+  return userState !== null ? (
     <View style={styles.container}>
       <Text style={styles.title}>User info</Text>
       <Text style={styles.subtitle}>Username: {userState.username}</Text>
       <Text style={styles.subtitle}>Full name: {userState.first_name + ' ' + userState.last_name}</Text>
       <Text style={styles.subtitle}>Account type: {userState.role}</Text>
       <PrimaryButton onClick={logout}>Log out</PrimaryButton>
+    </View>
+
+  ) : (
+    <View style={{width: '100%', height: 500, justifyContent: 'center', alignItems: 'center'}}>
+      <LoadingSpinner />
     </View>
   )
 }

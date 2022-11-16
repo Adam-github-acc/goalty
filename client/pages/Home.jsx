@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-native";
 import { getLoggedInUser } from "../utils/auth";
 import { getLocationFromCompany } from "../utils/location";
 import { getCompanies } from "../utils/apiService";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 export default function Home () {
   const { color } = useDarkMode();
-  const { fetchData, isLoading } = useApiCb();
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const { setNavTitle, setGoBack } = useContext(GlobalContext);
   const [featuredCompany, setFeaturedCompany] = useState(null);
@@ -39,8 +40,10 @@ export default function Home () {
     setNavTitle('Home');
     setGoBack(false);
     (async () => {
+      setIsLoading(true);
       setCompanies(await getCompanies());
       setUser(await getLoggedInUser() || null);
+      setIsLoading(false);
     })();
   }, [])
 
@@ -65,6 +68,12 @@ export default function Home () {
   });
 
   const render = () => {
+    if (isLoading) return (
+      <View style={{width: '100%', height: 500, justifyContent: 'center', alignItems: 'center'}}>
+        <LoadingSpinner />
+      </View>
+    );
+
     if (companies === undefined) return (
         <Text style={styles.title}>
           There are no companies! You can <Text style={styles.link} onPress={redirToRegister}>create one!</Text>

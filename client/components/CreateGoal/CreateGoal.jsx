@@ -3,7 +3,8 @@ import { View } from "react-native";
 import { useNavigate, useParams } from "react-router-native";
 import GlobalContext from "../../context/GlobalContext";
 import useApiCb from "../../hooks/useApiCb";
-import { api, forms } from "../../utils/enums";
+import { api, forms, toastTypes } from "../../utils/enums";
+import { showToast } from "../../utils/toast";
 import Form from "../Form/Form";
 
 export default function CreateGoal () {
@@ -30,7 +31,10 @@ export default function CreateGoal () {
     }, (err, data) => {
       if (!err && data.status === 201) {
         console.log('created!');
+        showToast(toastTypes.success, 'Congratulations!', `Your card ${data.data.name} is ready for use!`);
         navigate(-1);
+      } else {
+        showToast(toastTypes.error, 'Invalid input', 'Check for red form fields')
       }
     })
   }

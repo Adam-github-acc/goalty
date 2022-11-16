@@ -12,6 +12,7 @@ import { getCurrentLocation } from "../utils/location";
 import UserInfo from "../components/UserInfo/UserInfo";
 import { showToast } from "../utils/toast";
 import { toastTypes } from "../utils/enums";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 export default function MyAccount () {
   const { isAuthenticated, setIsAuthenticated, refresh, setRefresh } = useContext(GlobalContext);
@@ -128,6 +129,11 @@ export default function MyAccount () {
             {
               renderForm[tab]
             }
+            {isLoading && (
+              <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', height: 200, marginTop: 80}}>
+                <LoadingSpinner />
+              </View>
+            )}
           </ScrollView>
         </>
       )

@@ -51,14 +51,17 @@ export default function AddGoal () {
     fetchData(url, null, (err, data) => {
       console.log(data);
       if (!err && data.status < 400) {
-        
         createCard(data.data);
+      } else {
+        showToast(toastTypes.error, 'User not found', 'Check the username you typed');
       }
     })
   }
 
   const closeModal = () => {
-    ndef.cancelRequest();
+    try {
+      ndef.cancelRequest();
+    } catch (err) {}
     toggleModal();
   }
 
@@ -66,7 +69,7 @@ export default function AddGoal () {
     setModalText('Pass the card through the reader to assign it to the user');
     toggleModal();
     try {
-      await ndef.writeTag(user);
+      await ndef.writeTag(user.id);
       showToast(toastTypes.success, 'Card written correctly!', 'Card was succeesfully linked to user with username ' + user.username);
       navigate(-1);
     } catch (err) {
@@ -86,10 +89,14 @@ export default function AddGoal () {
         + nfcCard.content + api.goalPrefix + '/' + goalState.id;
       fetchData(url, {method: 'POST'}, (err, data) => {
         if (!err && data.status === 200) {
+          if (data.completed) showToast(toastTypes.success, 'Goal completed!', 'The card you just passed completed your goal');
           navigate(-1);
+          return;
         }
+        throw new Error('Something went wrong');
       })
     } catch (err) {
+      showToast(toastTypes.error, 'There was an error updating the goal to the user', 'Make sure the card is linked to a user');
       console.log(err);
     }
     closeModal();
@@ -105,7 +112,8 @@ export default function AddGoal () {
     <>
       <Text style={styles.text}>You are going to add the following goal: "{goalState.name}"</Text>
       {goalState.new === true ? (
-        <Form title="Type the user's username to create the card" onSubmit={handleSubmit} inputs={forms.addGoal} />
+        <Form title="Type the user's username to create the card" onSubmit={handleSubmit} inputs={forms.addGoal}
+        isButtonDisabled={isLoading}/>
       ) : (
         <PrimaryButton onClick={addGoalToUser}>Scan card</PrimaryButton>
       )

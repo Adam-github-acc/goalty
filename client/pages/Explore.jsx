@@ -9,6 +9,7 @@ import GlobalContext from "../context/GlobalContext";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import SecondaryButton from "../components/ui/SecondaryButton";
 import { useNavigate } from "react-router-native";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 export default function Explore () {
   const { mapStyle, color, backgroundColor, secondaryText } = useDarkMode();
@@ -84,6 +85,9 @@ export default function Explore () {
 
   return (
   <View style={styles.container}>
+    <View style={{width: '100%', height: 700, justifyContent: 'center', alignItems: 'center'}}>
+      <LoadingSpinner />
+    </View>
     {location !== null &&
     <MapView
       provider={PROVIDER_GOOGLE}

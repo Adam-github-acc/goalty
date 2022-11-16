@@ -7,7 +7,9 @@ export default function useToast () {
   const sharedStyles = {
     container: {
       backgroundColor: surfaceColor,
-      borderLeftColor: {success: colors.global.primary.default, error: 'red'}
+      borderLeftWidth: 0,
+      borderBottomWidth: 5,
+      borderBottomColor: {success: colors.global.primary.default, error: 'red'}
     },
     text1: {
       fontSize: 18,
@@ -23,7 +25,7 @@ export default function useToast () {
     success: (props) => (
       <BaseToast
         {...props}
-        style={{...sharedStyles.container, borderLeftColor: sharedStyles.container.borderLeftColor.success}}
+        style={{...sharedStyles.container, borderBottomWidth: 5, borderBottomColor: sharedStyles.container.borderBottomColor.success}}
         text1Style={sharedStyles.text1}
         text2Style={sharedStyles.text2}
       />
@@ -31,7 +33,7 @@ export default function useToast () {
     error: (props) => (
       <ErrorToast
         {...props}
-        style={{...sharedStyles.container, borderLeftColor: sharedStyles.container.borderLeftColor.error}}
+        style={{...sharedStyles.container, borderBottomColor: sharedStyles.container.borderBottomColor.error}}
         text1Style={sharedStyles.text1}
         text2Style={sharedStyles.text2}
       />
